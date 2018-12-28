@@ -1,0 +1,241 @@
+
+@import url('https://fonts.googleapis.com/css?family=Lato');
+/*IMPORTANT CSS*/
+.active {
+	color: darkkhaki !important;
+}
+.ff {
+	font-family: 'Lato', sans-serif;
+	color: white;
+	font-weight: 100;
+}
+.ff2 {
+	font-family: 'Lato', sans-serif;
+    font-weight: bold;
+	color: white;
+}
+.block {
+	display: block !important;
+	margin: 0 auto !important;
+	padding-bottom: 15%;
+}
+.mid {
+	text-align: center;
+}
+.mtop {
+    margin-top: 3%;
+}
+.mtop2 {
+    margin-top: 6%;
+}
+.mbtm {
+    margin-bottom: 3%;
+}
+.mbtm2 {
+    margin-bottom: 6%;
+}
+.mtopbtm {
+    margin: 3% 0;
+}
+.mtopbtm2 {
+    margin: 6% 0;
+}
+/*/IMPORTANT CSS*/
+
+/*SIDENAV*/
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+    left: 0;
+    background-color: #000;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+.sidenav a img {
+    border-radius: 50%;
+}
+.sidenav a {
+    font-family: 'Lato', sans-serif;
+    font-weight: bold;
+    text-align: left;
+    padding: 8px 8px 8px 30px;
+    text-decoration: none;
+    font-size: 14px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+.sidenav a:hover {
+    color: #2b2b2b;
+    text-decoration: none;
+}
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+#main {
+    transition: margin-left .5s;
+    padding: 16px;
+}
+.sidenav .tipe{
+    cursor: pointer;
+	
+}
+.sidenav .tipe ul{
+    list-style-type: none;
+	padding: 0;
+	cursor: pointer;
+	
+}
+.collapse ul li a {
+	color: white;
+	text-decoration: none;
+}
+.collapse ul li a:hover {
+    color: darkkhaki;
+	padding-left: 40px;
+}
+.mynav2 li {
+	padding-left: 40px;
+}
+.menuclick {
+    display: block;
+    font-size:30px;
+    font-family: 'Lato', sans-serif;
+    font-weight: bold;
+    background: #fff;
+	padding: 0 5px;
+}
+
+.menuclick a , .menuclick a:hover{
+    border: 2px solid #565656;
+    border-radius: 20%;
+	display: block;
+    color: white;
+	cursor: pointer;
+	text-decoration: none;
+	float: left;
+    margin-top: 2%;
+	padding: 0 10px;
+}
+.menuclick img{
+    display: inline-block;
+}
+a.mymenu {
+	color: #cfcfcf;
+	font-size: 120%;
+	border-bottom: 1px solid #4f4f4f;
+}
+a.mymenu:hover {
+	color: darkkhaki;
+}
+#icon {
+    float: right;
+}
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+/*/SIDENAV*/
+.mynav li a::before {
+    font-family: FontAwesome;
+    content: "»";
+    display: inline-block;
+    padding-left: 10px;
+    padding-right: 10px;
+    vertical-align: middle;
+}
+.cbutton, .cbutton2 {
+	border: 2px solid white;
+	padding: 1% 2%;
+}
+.cbutton:hover {
+	color: white;
+    border: 2px solid #82cbed;
+}
+.cbutton span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.cbutton span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.cbutton:hover span {
+  padding-right: 25px;
+}
+
+.cbutton:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
+
+.cbutton2:hover {
+	color: white;
+    border: 2px solid #82cbed;
+}
+.cbutton2 span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.cbutton2 span:after {
+  content: '\00ab';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  left: 0;
+  transition: 0.5s;
+}
+
+.cbutton2:hover span {
+  padding-left: 25px;
+}
+
+.cbutton2:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+.mycbtn, .mycbtn:hover {
+	border: 2px solid black;	
+	margin: 0 auto;
+	display: block;
+}
+button.mycbtn span {
+	color: black !important;
+	font-weight: bold;
+}
+/*MEDIA*/
+@media (min-width:320px) and (max-width:480px) {
+	.mobile {
+		margin-top: 40% !important;
+	}
+}
+@media (min-width:600px) and (max-width:780px) {
+	.mobile {
+		margin-top: 40% !important;
+	}
+}
+@media (min-width:768px) and (max-width:800px) {
+	.mobile {
+		margin-top: 40% !important;
+	}
+}

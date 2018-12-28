@@ -1,0 +1,119 @@
+body{
+	/*	background: #333 url(..images/bglogin.jpg) center center fixed  no-repeat; */
+		background-size: cover;
+		padding-top: 40px;
+		background-image:url(../images/bglogin.jpg);
+		background-repeat: no-repeat;
+		background-position:center;
+		background-attachment:fixed;
+	}
+	.logo{
+		width: 250px;
+		margin: 0 auto;
+		display: block;	
+		margin-bottom: 20px;	
+	}
+	.txt_field{
+		width: 350px;
+		margin: 0 auto;
+		display: block;
+		transition: all .5s;
+		margin-bottom: 10px;
+		background: #fff;
+		/*border:1px solid transparent;*/
+		border:1px solid #ccc;
+	}
+	.txt_field:hover{
+		/*box-shadow: 0px 0px 21px #fff;*/
+		background: rgba(255,255,255,.2);
+		transition: all 1s;
+	}
+	.txt_field i{
+		color: #000;
+		display: inline-block;
+		width: 20%;
+		float: 	left;
+		display: table-cell;
+		vertical-align: middle;
+		background:rgba(255,255,255,.1);
+		/*border-right: 1px solid #fff;*/
+		width: 50px;	
+		
+		padding-left: 20px;	
+		height: 52px;	
+		padding-top: 15px;	
+		box-sizing: border-box;
+	}
+	.txt_field .txt{
+		 
+		display: block; 
+		font:300 15PX 'Open Sans', sans-serif;
+		background: transparent;
+		color: #000;
+		float: right;
+		height: 50px;	
+		border:0;
+		width: 295px;
+		box-sizing: border-box;
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+	.clr{
+		clear: both;
+	}
+	.btn{
+		width: 350px;
+		margin: 0 auto;
+		display: block;
+		/*text-align: center;*/
+		margin-top: 20px;
+	}
+	.btn button{
+		background: transparent;
+		width: 48%;
+		text-align: center;
+		color:#000;
+		border:0;
+		border:1px solid #000;
+		transition: all .5s;
+		cursor: pointer;
+		padding: 10px 20px;
+		opacity: .5;
+		letter-spacing: 0px;
+		font:normal 12px arial;
+
+	}
+	.fr{
+		float: right;
+		width: 48%;
+	}
+	button i{
+		display: inline-block;
+		margin-left: 40px;
+	}
+	button:hover{
+		color:#000;
+		transition: all 1s;
+		/*letter-spacing: 1px;*/
+		opacity: 1;
+	}
+	.btn p{
+		font:300 11px open sans;
+		color:#000;
+		display: block;
+		margin-top: 20px;
+		text-align: center;
+		/*letter-spacing: 1px;*/
+		margin-top: 40px;
+	}
+	.containerx{
+		background: rgba(255,255,255, 0.3);
+		/*background: rgba(0, 0, 0, 0.1);*/
+		width: 400px;
+		margin: 3% auto;
+		height: 100%;
+		padding-bottom: 60px;
+		/*box-shadow: 0px 0px 110px #111;*/
+		border:1px solid #ccc;
+		padding-top: 30px;
+	}
