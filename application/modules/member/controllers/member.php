@@ -61,7 +61,7 @@ class Member extends MX_Controller
                     $push = new Push_lib();
                     $logid = mt_rand(1000,9999);
                     $res = $this->Member_model->get_by_phone($user)->row(); 
-                    $sms->send($user, $this->properti['name'].' : Login OTP Code : '.$logid);
+//                    $sms->send($user, $this->properti['name'].' : Login OTP Code : '.$logid);
 //                    $push->send_device($userid, $this->properti['name'].' : Kode OTP : '.$logid);
                     
                     $date = new DateTime();
@@ -105,6 +105,7 @@ class Member extends MX_Controller
         if ($this->api->otentikasi() == TRUE){
             $status = 200;
             $output = null;
+            $response = null;
 
             if ( isset($phone) ){
 
@@ -116,9 +117,9 @@ class Member extends MX_Controller
                                      'organization' => $res->organization, 'member_no' => $res->member_no, 'instagram' => $res->instagram, 'image' => base_url().'images/member/'.$res->image);
                 }else{ $status = 404; }
 
-            }else{ $status = 401; $output = "Wrong format..!!"; }
-        }else{ $response = array('error' => 'Invalid Token or Expired..!'); $status = 401; }
-        $this->api->response(array('output' => $output), $status);
+            }else{ $status = 401; $response = "Wrong format..!!"; }
+        }else{ $response = 'Invalid Token or Expired..!'; $status = 401; }
+        $this->api->response(array('error' => $response, 'content' => $output), $status);
     }
     
     function register(){
