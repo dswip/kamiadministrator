@@ -1,5 +1,8 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
+require_once APPPATH.'libraries/jwt/JWT.php';
+use \Firebase\JWT\JWT;
+
 class Member extends MX_Controller
 {
     function __construct()
@@ -22,15 +25,15 @@ class Member extends MX_Controller
         $this->period = $this->period->get();
         $this->ledger = new Wallet_ledger_lib();
         $this->notif = new Notif_lib();
+        $this->api = new Api_lib();
         
         header('Access-Control-Allow-Origin: *');
         header('Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS');
         header('Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token'); 
-        
     }
 
     private $properti, $modul, $title, $ledger, $city, $disctrict;
-    private $role, $login, $balance, $period, $notif;
+    private $role, $login, $balance, $period, $notif, $api;
 
     function index()
     {
@@ -43,243 +46,139 @@ class Member extends MX_Controller
         $datas = (array)json_decode(file_get_contents('php://input'));
         $user = $datas['username'];
         
-        $status = true;
+        $status = 200;
         $error = null;
         $logid = null;
-        $name = null;
-        $userid = null;
+        $token = null;
         
         if ($user != null){
             
             if ($this->Member_model->cek_user_phone($user) == TRUE){
                 $res = $this->Member_model->login($user);
-                if ($res == FALSE){ $status = false; $error = 'Invalid Credential..!'; }
+                if ($res == FALSE){ $status = 401; $error = 'Invalid Credential..!'; }
                 else{
-
                     $sms = new Sms_lib();
                     $push = new Push_lib();
                     $logid = mt_rand(1000,9999);
                     $res = $this->Member_model->get_by_phone($user)->row(); 
-                    $userid = $res->id;
-                    $this->login->add($userid, $logid, $datas['device']);
-                    $sms->send($user, $this->properti['name'].' : Kode OTP : '.$logid);
+                    $sms->send($user, $this->properti['name'].' : Login OTP Code : '.$logid);
 //                    $push->send_device($userid, $this->properti['name'].' : Kode OTP : '.$logid);
-                    $name = $res->first_name;
-                }
-            }else{ $status = false; $error = 'Invalid Phone Number'; }
-        }else{ $status = false; $error = "Wrong format..!!"; }
-        
-        $response = array('status' => $status, 'error' => $error, 'user' => $name, 'phone' => $user, 'userid' => $userid, 'log' => $logid); 
-        $this->output
-        ->set_status_header(201)
-        ->set_content_type('application/json', 'utf-8')
-        ->set_output(json_encode($response))
-        ->_display();
-        exit;
-    }
-    
-    function forgot(){
-        
-        $datas = (array)json_decode(file_get_contents('php://input'));
-        $user = $datas['username'];
-        
-        $status = true;
-        $error = null;
-        
-        if ($user != null){
-            
-            $res = $this->Member_model->cek_user($user);
-            if ($res == TRUE){ 
-                $val = $this->Member_model->get_by_username($user)->row();
-//                if ($this->send_confirmation_email($val->id) == TRUE){ $status = true; $error = "Password has been sent to your email."; }else{ $status = false; $error = 'Email Not Sent..!'; }
-                $status = TRUE; $error = "Password has been sent to your email";
-            }else{ $status = false; $error = 'Invalid Member Credential..!'; }
-            
-        }else{ $status = false; $error = "Wrong format..!!"; }
-        
-        $response = array('status' => $status, 'error' => $error, 'user' => $datas['username']); 
-        $this->output
-        ->set_status_header(201)
-        ->set_content_type('application/json', 'utf-8')
-        ->set_output(json_encode($response))
-        ->_display();
-        exit;
-    }
-    
-    function otentikasi(){
-       
-        $datas = (array)json_decode(file_get_contents('php://input'));
-        $user = $datas['userid'];
-        $log = $datas['log'];
-        
-        $status = true;
-        $error = null;
-        
-        if ( isset($datas['userid']) && isset($datas['log']) ){
-           if ( $this->login->valid($user, $log) == FALSE ){ $status = false; $error = "user already login..!!"; }      
-        }else{ $status = false; $error = "Wrong format..!!"; }
-        
-        $response = array('status' => $status, 'error' => $error); 
-        $this->output
-        ->set_status_header(201)
-        ->set_content_type('application/json', 'utf-8')
-        ->set_output(json_encode($response))
-        ->_display();
-        exit;
-    }
-    
-    // change password
-    
-    function change_password(){
-        
-        $datas = (array)json_decode(file_get_contents('php://input'));
-        $user = $datas['username'];
-        $old = $datas['old_password'];
-        $new = $datas['new_password'];
-        
-        $status = TRUE;
-        $error = null;
-        
-        if ($user != null && $old != null && $new != null){
-            
-            $res = $this->Member_model->login($user,$old);
-            if ($res == TRUE){ 
-                
-                if ($new == $old){ $status = FALSE; $error = "Password sudah pernah digunakan.";}else{
                     
-                    $result = $this->Member_model->get_by_username($user)->row();
-                    $member = array('password' => $new);
-                    $this->Member_model->update($result->id, $member);
-                    $error = 'Password Berhasil Diubah';
+                    $date = new DateTime();
+                    $payload['userid'] = $res->id;
+                    $payload['username'] = $res->first_name;
+                    $payload['phone'] = $user;
+                    $payload['log'] = $logid;
+                    $payload['iat'] = $date->getTimestamp();
+                    $payload['exp'] = $date->getTimestamp() + 60*60*20;
+                    $token = JWT::encode($payload, 'woma');
+                    $this->login->add($res->id, $token, $datas['device']);
                 }
-            }else{ $status = FALSE; $error = 'Akun tidak ditemukan..!'; }
-            
-        }else{ $status = FALSE; $error = "Wrong format..!!"; }
+            }else{ $status = 401; $error = 'Invalid Phone Number'; }
+        }else{ $status = 404; $error = "Wrong format..!!"; }
         
-        $response = array('status' => $status, 'error' => $error, 'user' => $datas['username']); 
-        $this->output
-        ->set_status_header(201)
-        ->set_content_type('application/json', 'utf-8')
-        ->set_output(json_encode($response))
-        ->_display();
-        exit;
-        
+        $output = array('token' => $token,'error' => $error); 
+        $this->api->response($output,$status);
     }
     
     function detail($user){
         
-        $status = true;
-        $error = null;
-        
-        if ( isset($user) ){
-            
-        $res = $this->Member_model->get_by_id($user)->row();
-        $output = array ("id" => $res->id, "first_name" => strtoupper($res->first_name), "last_name" => $res->last_name,
-                         "type" => $res->type, "email" => $res->email, "address" => $res->address, "phone" => $res->phone1);
-                       
-        }else{ $status = false; $error = "Wrong format..!!"; }
+        if ($this->api->otentikasi() == TRUE){
+            $status = 200;
+            if ( isset($user) ){
 
-            $this->output
-            ->set_status_header(200)
-            ->set_content_type('application/json', 'utf-8')
-            ->set_output(json_encode($output,128))
-            ->_display();
-            exit; 
+            $res = $this->Member_model->get_by_id($user)->row();
+            if ($res){
+                $output = array ("id" => $res->id, "first_name" => strtoupper($res->first_name), "last_name" => $res->last_name,
+                                     "type" => $res->type, "email" => $res->email, "address" => $res->address, "phone" => $res->phone1,
+                                     "city" => $res->city, 'npwp' => $res->npwp, 'profession' => $res->profession,
+                                     'organization' => $res->organization, 'member_no' => $res->member_no, 'instagram' => $res->instagram, 'image' => base_url().'images/member/'.$res->image);
+            }else{ $status = 404; }
+            }else{ $status = 401; $error = "Wrong format..!!"; }
+        }else{ $response = array('error' => 'Invalid Token or Expired..!'); $status = 401; }
+        $this->api->response(array('output' => $output), $status);
     }
     
     // get detail by phone
     function detail_by_phone($phone){
         
-        $status = true;
-        $error = null;
-        $output = null;
-        
-        if ( isset($phone) ){
-            
-        $res = $this->Member_model->get_by_phone($phone)->row();
-        if ($res){
-            $output = array ("id" => $res->id, "first_name" => strtoupper($res->first_name), "last_name" => $res->last_name,
-                         "type" => $res->type, "email" => $res->email, "address" => $res->address, "phone" => $res->phone1);
-        }
-                       
-        }else{ $status = false; $error = "Wrong format..!!"; }
+        if ($this->api->otentikasi() == TRUE){
+            $status = 200;
+            $output = null;
 
-            $this->output
-            ->set_status_header(200)
-            ->set_content_type('application/json', 'utf-8')
-            ->set_output(json_encode($output,128))
-            ->_display();
-            exit; 
-    }
-    
-    function valid_member(){
-        
-        $datax = (array)json_decode(file_get_contents('php://input')); 
-        
-        if ($this->Member_model->valid_member($datax['email'], $datax['phone']) == TRUE){
-            $response = array('status' => true, 'error' => null); 
-        }else{ $response = array('status' => false, 'error' => 'Email atau No Telepon Tidak Valid');  }
-        
-        $this->output
-        ->set_status_header(201)
-        ->set_content_type('application/json', 'utf-8')
-        ->set_output(json_encode($response))
-        ->_display();
-        exit;
+            if ( isset($phone) ){
+
+                $res = $this->Member_model->get_by_phone($phone)->row();
+                if ($res){
+                    $output = array ("id" => $res->id, "first_name" => strtoupper($res->first_name), "last_name" => $res->last_name,
+                                     "type" => $res->type, "email" => $res->email, "address" => $res->address, "phone" => $res->phone1,
+                                     "city" => $res->city, 'npwp' => $res->npwp, 'profession' => $res->profession,
+                                     'organization' => $res->organization, 'member_no' => $res->member_no, 'instagram' => $res->instagram, 'image' => base_url().'images/member/'.$res->image);
+                }else{ $status = 404; }
+
+            }else{ $status = 401; $output = "Wrong format..!!"; }
+        }else{ $response = array('error' => 'Invalid Token or Expired..!'); $status = 401; }
+        $this->api->response(array('output' => $output), $status);
     }
     
     function register(){
         
+        $status = 200;
         $datax = (array)json_decode(file_get_contents('php://input')); 
         if ($this->Member_model->valid_member($datax['email'], $datax['phone']) == TRUE){
             
             $member = array('first_name' => strtolower($datax['name']), 
-                          'phone1' => $datax['phone'],
-                          'email' => $datax['email'],
-                          'joined' => date('Y-m-d H:i:s'), 'status' => 1,
-                          'created' => date('Y-m-d H:i:s'));
+                            'phone1' => $datax['phone'], 'type' => $datax['type'],
+                            'email' => $datax['email'],
+                            'joined' => date('Y-m-d H:i:s'), 'status' => 1,
+                            'created' => date('Y-m-d H:i:s'));
 
             $this->Member_model->add($member);
             $this->balance->create($this->Member_model->counter(1), $this->period->month, $this->period->year);
-            
+            $response = array('error' => 'Registrasi Berhasil'); 
             if ($this->send_confirmation_email($this->Member_model->counter(1)) == TRUE){
-                 $response = array('status' => true, 'error' => 'Registrasi Berhasil'); 
-            }else{ $response = array('status' => true, 'error' => 'Gagal Mengirim Notifikasi');  }
+                 $response = array('error' => 'Registrasi Berhasil'); 
+            }else{ $response = array('error' => 'Gagal Mengirim Notifikasi');  }
             
         }else{
-            $response = array('status' => false, 'error' => 'Registrasi Gagal, Email atau No Telepon sudah terdaftar..!'); 
+            $response = array('error' => 'Registrasi Gagal, Email atau No Telepon sudah terdaftar..!'); 
+            $status = 401;
         }
-        
-        $this->output
-        ->set_status_header(201)
-        ->set_content_type('application/json', 'utf-8')
-        ->set_output(json_encode($response))
-        ->_display();
-        exit;
+        $this->api->response($response,$status);
     }
     
     function edit_member(){
         
-        $datax = (array)json_decode(file_get_contents('php://input')); 
-        $status = false; $error = null; 
+        if ($this->api->otentikasi() == TRUE){
+            $status = 200; $error = null; 
+            $datax = (array)json_decode(file_get_contents('php://input')); 
+
+            if ($this->Member_model->validating('phone1', $datax['phone'], $datax['id']) == FALSE || $this->Member_model->validating('email', $datax['email'], $datax['id']) == FALSE){
+                $error = 'No telepon atau email sudah pernah terdaftar'; $status = 401;
+            }else{  
+                $member = array('first_name' => strtolower($datax['name']), 'phone1' => $datax['phone'], 'email' => $datax['email'],
+                                'address' => $datax['address'], 'city' => $datax['city'], 'npwp' => $datax['npwp'], 'profession' => $datax['profession'],
+                                'organization' => $datax['organization'], 'member_no' => $datax['member_no'], 'instagram' => $datax['instagram'], 'image' => $datax['image']
+                               );
+                $status = 200; $error = 'Profil Berhasil Diubah';
+                $this->Member_model->update($datax['id'],$member);
+                $this->crop_image($datax['image']);
+            }
+
+            $response = array('error' => $error); 
+        }else{ $response = array('error' => 'Invalid Token or Expired..!'); $status = 401; }
+        $this->api->response($response, $status);
+    }
+    
+    private function crop_image($filename){
         
-        if ($this->Member_model->validating('email', $datax['email'], $datax['id']) == FALSE ){
-            $error = 'Email sudah pernah terdaftar';
-        }else{  
-            $member = array('first_name' => strtolower($datax['fname']), 'email' => $datax['email']);
-            $status = true; $error = 'Profil Berhasil Diubah';
-            $this->Member_model->update($datax['id'],$member);
-        }
-            
-        $response = array('status' => $status, 'error' => $error); 
-        
-        $this->output
-        ->set_status_header(201)
-        ->set_content_type('application/json', 'utf-8')
-        ->set_output(json_encode($response))
-        ->_display();
-        exit;
-        
+        $config['image_library'] = 'gd2';
+        $config['source_image'] = './images/member/'.$filename;
+        $config['maintain_ratio'] = TRUE;
+        $config['width']	= 300;
+        $config['height']	= 300;
+        $this->load->library('image_lib', $config); 
+        if (!$this->image_lib->resize()){ return FALSE; } 
     }
     
     // get current balance
@@ -311,13 +210,6 @@ class Member extends MX_Controller
         exit;
     }
     
-    private function send_confirmation_sms($pid){
-       
-        $member = $this->Member_model->get_by_id($pid)->row();
-        $mess = "Selamat datang di wamenak.com ".ucfirst($member->fname)." Mohon cek email anda untuk informasi lebih lanjut. Terima Kasih.";
-        return $this->sms->send($member->phone1, $mess);
-    }
-    
     private function send_confirmation_email($pid)
     {   
         // property display
@@ -332,7 +224,7 @@ class Member extends MX_Controller
        
        $member = $this->Member_model->get_by_id($pid)->row();
 
-       $data['code']    = 'CUST-0'.$member->id;
+       $data['code']    = 'MBR-0'.$member->id;
        $data['name']    = strtoupper($member->first_name.' '.$member->last_name);
        $data['type']    = strtoupper($member->type);
        $data['phone']    = $member->phone1;
@@ -341,7 +233,7 @@ class Member extends MX_Controller
          
         // email send
        $html = $this->load->view('member_receipt',$data,true); 
-       return $this->notif->create($pid, $html, 0, $this->title, 'Wamenak E-Welcome - '.strtoupper($data['code']));
+       return $this->notif->create($pid, $html, 0, $this->title, 'Woma E-Welcome - '.strtoupper($data['code']));
     }
     
 
@@ -372,6 +264,8 @@ class Member extends MX_Controller
          exit;  
         }
     }
+    
+    // batas REST API
     
     function get_list($target='titem')
     {
@@ -599,6 +493,8 @@ class Member extends MX_Controller
                                   'website' => $this->input->post('twebsite'), 'region' => $this->input->post('cdistrict'),
                                   'city' => $this->input->post('ccity'), 'state' => $this->city->get_province_based_city($this->input->post('ccity')),
                                   'zip' => $this->input->post('tzip'), 'joined' => date('Y-m-d H:i:s'),
+                                  'npwp' => $this->input->post('tnpwp'), 'profession' => $this->input->post('tprofession'), 
+                                  'organization' => $this->input->post('torganization'), 'member_no' => $this->input->post('tmemberno'), 'instagram' => $this->input->post('tinstagram'),
                                   'image' => null, 'created' => date('Y-m-d H:i:s'));
             }
             else
@@ -613,6 +509,8 @@ class Member extends MX_Controller
                                   'website' => $this->input->post('twebsite'), 'region' => $this->input->post('cdistrict'),
                                   'city' => $this->input->post('ccity'), 'state' => $this->city->get_province_based_city($this->input->post('ccity')),
                                   'zip' => $this->input->post('tzip'), 'joined' => date('Y-m-d H:i:s'),
+                                  'npwp' => $this->input->post('tnpwp'), 'profession' => $this->input->post('tprofession'), 
+                                  'organization' => $this->input->post('torganization'), 'member_no' => $this->input->post('tmemberno'), 'instagram' => $this->input->post('tinstagram'),
                                   'image' => $info['file_name'], 'created' => date('Y-m-d H:i:s'));
             }
 
@@ -671,6 +569,11 @@ class Member extends MX_Controller
         $data['default']['city'] = $member->city;
         $data['default']['district'] = $member->region;
         $data['default']['zip'] = $member->zip;
+        $data['default']['npwp'] = $member->npwp;
+        $data['default']['profession'] = $member->profession;
+        $data['default']['organization'] = $member->organization;
+        $data['default']['memberno'] = $member->member_no;
+        $data['default']['instagram'] = $member->instagram;
         $data['default']['image'] = base_url().'images/member/'.$member->image;
 
         $this->load->view('template', $data);
@@ -927,6 +830,8 @@ class Member extends MX_Controller
                               'email' => $this->input->post('temail'),
                               'website' => $this->input->post('twebsite'), 'region' => $this->input->post('cdistrict'),
                               'city' => $this->input->post('ccity'), 'state' => $this->city->get_province_based_city($this->input->post('ccity')),
+                              'npwp' => $this->input->post('tnpwp'), 'profession' => $this->input->post('tprofession'), 
+                              'organization' => $this->input->post('torganization'), 'member_no' => $this->input->post('tmemberno'), 'instagram' => $this->input->post('tinstagram'),
                               'zip' => $this->input->post('tzip'));
 
             }
@@ -941,6 +846,8 @@ class Member extends MX_Controller
                               'email' => $this->input->post('temail'),
                               'website' => $this->input->post('twebsite'), 'region' => $this->input->post('cdistrict'),
                               'city' => $this->input->post('ccity'), 'state' => $this->city->get_province_based_city($this->input->post('ccity')),
+                              'npwp' => $this->input->post('tnpwp'), 'profession' => $this->input->post('tprofession'), 
+                              'organization' => $this->input->post('torganization'), 'member_no' => $this->input->post('tmemberno'), 'instagram' => $this->input->post('tinstagram'),
                               'zip' => $this->input->post('tzip'), 'image' => $info['file_name']);
             }
 

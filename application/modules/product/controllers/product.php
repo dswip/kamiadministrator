@@ -18,6 +18,7 @@ class Product extends MX_Controller
         $this->product = new Product_lib();
         $this->supplier = new Supplier_lib();
         $this->sales = new Sales_lib();
+        $this->api = new Api_lib();
         
         header('Access-Control-Allow-Origin: *');
         header('Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS');
@@ -25,7 +26,7 @@ class Product extends MX_Controller
         
     }
 
-    private $properti, $modul, $title, $product, $supplier;
+    private $properti, $modul, $title, $product, $supplier, $api;
     private $role, $category, $model, $currency, $sales;
 
     function index()
@@ -41,6 +42,8 @@ class Product extends MX_Controller
     // get product list based category and limit
     public function get_list($cat,$type=null,$limit=5,$start=0){
         
+      if ($this->api->otentikasi() == TRUE){  
+        $status=200;  
         $lib = new Product_lib();
         if ($type != 'recommend'){
            $result = $lib->get_poduct_based_cat($cat,$limit,$start)->result();
@@ -59,14 +62,8 @@ class Product extends MX_Controller
         if ($type != 'recommend'){
            if ($num > 0){ $response['content'] = $output; }else{ $response['content'] = 'reachedMax'; }     
         }else{ $response['content'] = $output; }
-        
-        $response['result'] = ucfirst($this->category->get_name($cat));
-            $this->output
-            ->set_status_header(200)
-            ->set_content_type('application/json', 'utf-8')
-            ->set_output(json_encode($response,128))
-            ->_display();
-            exit; 
+      }else{ $response = array('error' => 'Invalid Token or Expired..!'); $status = 401; }
+      $this->api->response($response, $status);
     }
     
      public function product_detail($pid=0){

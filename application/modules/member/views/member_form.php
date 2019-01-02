@@ -4,7 +4,7 @@
 <div class="modal-content">
 <div class="modal-header">
   <button type="button" class="close" data-dismiss="modal">&times;</button>
-  <h4 class="modal-title"> Add New Customer </h4>
+  <h4 class="modal-title"> Add New Member </h4>
 </div>
 <div class="modal-body">
 
@@ -37,8 +37,9 @@
     
       <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
         <select name="ctype" id="ctype" class="form-control"> 
-            <option value="customer"> Customer </option> 
-            <option value="member"> Member </option>  
+            <option value="kontraktor"> Kontraktor </option> 
+            <option value="member"> Member </option>
+            <option value="studio"> Studio </option>
         </select>
       </div>
     
@@ -80,6 +81,31 @@ echo form_dropdown('ccity', $city, isset($default['city']) ? $default['city'] : 
       <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
         <input type="text" class="form-control" id="twebsite" name="twebsite" placeholder="Website">
         <span class="fa fa-internet-explorer form-control-feedback right" aria-hidden="true"></span> 
+      </div>
+    
+      <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+        <input type="text" class="form-control has-feedback-left" id="tnpwp" name="tnpwp" placeholder="NPWP">
+        <span class="fa fa-file-archive-o form-control-feedback left" aria-hidden="true"></span> 
+      </div>
+    
+      <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+        <input type="text" class="form-control" id="tprofession" name="tprofession" placeholder="Profession">
+        <span class="fa fa-book form-control-feedback right" aria-hidden="true"></span> 
+      </div>
+    
+      <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+        <input type="text" class="form-control has-feedback-left" id="torganization" name="torganization" placeholder="Organization">
+        <span class="fa fa-file-archive-o form-control-feedback left" aria-hidden="true"></span> 
+      </div>
+    
+      <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+        <input type="text" class="form-control" id="tmemberno" name="tmemberno" placeholder="Organization No">
+        <span class="fa fa-book form-control-feedback right" aria-hidden="true"></span> 
+      </div>
+    
+      <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+        <input type="text" class="form-control has-feedback-left" id="tinstagram" name="tinstagram" placeholder="Instagram">
+        <span class="fa fa-instagram form-control-feedback left" aria-hidden="true"></span> 
       </div>
     
       <div class="col-md-9 col-sm-9 col-xs-12 form-group has-feedback">

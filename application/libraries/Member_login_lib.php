@@ -13,7 +13,7 @@ class Member_login_lib
     
     public function add($user=0, $log=0, $device=null)
     {
-        $trans = array('userid' => $user, 'log' => $log, 'device' => $device);
+        $trans = array('userid' => $user, 'log' => $log, 'device' => $device, 'joined' => date('Y-m-d H:i:s'));
         if ($this->cek($user) == TRUE){ $this->ci->db->insert($this->tableName, $trans); }
         else { $this->edit($user,$log,$device); }
     }
@@ -27,7 +27,7 @@ class Member_login_lib
     
     private function edit($user,$log,$device=null)
     {
-        $trans = array('log' => $log, 'device' => $device);
+        $trans = array('log' => $log, 'device' => $device, 'joined' => date('Y-m-d H:i:s'));
         $this->ci->db->where('userid', $user);
         $this->ci->db->update($this->tableName, $trans);
     }

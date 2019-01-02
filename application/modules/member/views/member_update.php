@@ -20,7 +20,7 @@
   a:hover { text-decoration:none;}
 </style>
 
-<script src="<?php echo base_url(); ?>js/moduljs/customer.js"></script>
+<script src="<?php echo base_url(); ?>js/moduljs/member.js"></script>
 <script src="<?php echo base_url(); ?>js-old/register.js"></script>
 
 <script type="text/javascript">
@@ -169,6 +169,34 @@ echo form_dropdown('cdistrict', $district, isset($default['district']) ? $defaul
         value="<?php echo isset($default['website']) ? $default['website'] : '' ?>">
         <span class="fa fa-internet-explorer form-control-feedback right" aria-hidden="true"></span> 
       </div>
+        
+      <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+        <input type="text" class="form-control has-feedback-left" id="tnpwp" name="tnpwp" placeholder="NPWP"
+        value="<?php echo isset($default['npwp']) ? $default['npwp'] : '' ?>">
+        <span class="fa fa-file-archive-o form-control-feedback left" aria-hidden="true"></span> 
+      </div>
+    
+      <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+        <input type="text" class="form-control" id="tprofession" name="tprofession" placeholder="Profession"
+        value="<?php echo isset($default['profession']) ? $default['profession'] : '' ?>">
+        <span class="fa fa-book form-control-feedback right" aria-hidden="true"></span> 
+      </div>
+    
+      <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+        <input type="text" class="form-control has-feedback-left" id="torganization" name="torganization" placeholder="Organization" value="<?php echo isset($default['organization']) ? $default['organization'] : '' ?>">
+        <span class="fa fa-file-archive-o form-control-feedback left" aria-hidden="true"></span> 
+      </div>
+    
+      <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+        <input type="text" class="form-control" id="tmemberno" name="tmemberno" placeholder="Organization No"
+        value="<?php echo isset($default['memberno']) ? $default['memberno'] : '' ?>">
+        <span class="fa fa-book form-control-feedback right" aria-hidden="true"></span> 
+      </div>
+    
+      <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+        <input type="text" class="form-control has-feedback-left" id="tinstagram" name="tinstagram" placeholder="Instagram" value="<?php echo isset($default['instagram']) ? $default['instagram'] : '' ?>">
+        <span class="fa fa-instagram form-control-feedback left" aria-hidden="true"></span> 
+      </div>    
     
       <div class="col-md-9 col-sm-9 col-xs-12 form-group has-feedback">
         <input type="file" id="uploadImage" accept="image/*" class="input-medium" title="Upload" name="userfile" /> <br>
@@ -233,5 +261,4 @@ echo form_dropdown('cdistrict', $district, isset($default['district']) ? $defaul
       });
     </script>
     <!-- /jQuery Smart Wizard -->
-    
     

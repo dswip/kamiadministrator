@@ -15,7 +15,7 @@ class Member_model extends Custom_Model
     
     protected $field = array('id', 'first_name', 'last_name', 'type', 'address', 'shipping_address', 'phone1', 'phone2', 'joined',
                              'fax', 'email', 'password', 'website', 'state', 'city', 'region', 'zip', 'notes', 'image', 'status',
-                             'npwp', 'profession', 'organization', 'member_no',
+                             'npwp', 'profession', 'organization', 'member_no', 'instagram', 'premium',
                              'created', 'updated', 'deleted');
     protected $com;
     
@@ -93,7 +93,7 @@ class Member_model extends Custom_Model
         if ($res > 0){ return TRUE; }else{ return FALSE; }
     }
     
-    function valid_customer($email,$phone1){
+    function valid_member($email,$phone1){
         
         $this->db->select($this->field);
         $this->db->where('deleted', NULL);

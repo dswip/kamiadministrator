@@ -5,7 +5,7 @@ class Customer_lib extends Custom_Model {
     public function __construct($deleted=NULL)
     {
         $this->deleted = $deleted;
-        $this->tableName = 'customer';
+        $this->tableName = 'member';
     }
 
     private $ci;
