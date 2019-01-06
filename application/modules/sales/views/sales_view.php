@@ -37,7 +37,7 @@
 	var sites_edit = "<?php echo site_url('sales/update_process/');?>";
 	var sites_del  = "<?php echo site_url('sales/delete/');?>";
 	var sites_get  = "<?php echo site_url('sales/update/');?>";
-    var sites_confirmation  = "<?php echo site_url('sales_payment/get_last/');?>";
+    var sites_confirmation  = "<?php echo site_url('sales/confirmation/');?>";
     var sites_print_invoice  = "<?php echo site_url('sales/invoice/');?>";
     var sites_primary   = "<?php echo site_url('sales/publish/');?>";
     var sites_redeem    = "<?php echo site_url('sales/redeem/');?>";
@@ -81,49 +81,6 @@
           <div class="row"> 
           
             <div class="col-md-12 col-sm-12 col-xs-12">
-                
-              <div class="x_panel">
-                    
-                   <!-- xtitle -->
-                      <div class="x_title">
-                       <h2> Sales Order Chart </h2>
-
-                        <ul class="nav navbar-right panel_toolbox">
-                          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a> </li>
-                          <li><a class="close-link"><i class="fa fa-close"></i></a> </li>
-                        </ul>
-
-                        <div class="clearfix"></div>
-                      </div>
-                      <!-- xtitle -->
-
-        <div class="x_content">
-                        
-    <!-- chart form -->
-           
-       <form id="xsearchform" class="form-inline" method="post" action="<?php echo site_url('sales/get_last'); ?>">
-          <div class="form-group">
-            <label class="control-label labelx"> Periode : </label>  
-            <?php $js = "class='form-control' id='ccustomer' tabindex='-1' style='min-width:150px;' "; 
-                echo form_dropdown('cmonth', $month, isset($default['month']) ? $default['month'] : '', $js); ?>
-          </div>
-
-          <div class="form-group">
-<input type="number" class="form-control" style="max-width:80px;" name="tyear" id="tyear" value="<?php echo $year; ?>">
-          </div>
-
-      <div class="form-group btn-group">
-       <button type="submit" class="btn btn-primary button_inline"> Filter </button>
-       <a href="<?php echo site_url('sales'); ?>" class="btn btn-success button_inline"> Reset </a>
-      </div>
-      </form> <br>
-
-  <!-- chart form -->
-                        
-            <div id="chartcontainer" style="height:250px; width:100%;"></div>
-        </div>    
-                    
-              </div>  
                   
               <!--  batas xtitle 2  -->    
                 
@@ -168,8 +125,8 @@ $atts1 = array(
              
              <div class="form-group">
                 <label class="control-label labelx"> Customer : </label> <br>  
-                 CU0 <input type="text" class="form-control" name="tcust" id="ccust" readonly style="width:70px;">
-                 <?php echo anchor_popup(site_url("customer/get_list/ccust/"), '[ ... ]', $atts1); ?> &nbsp;
+                 MBR-0 <input type="text" class="form-control" name="tcust" id="ccust" readonly style="width:70px;">
+                 <?php echo anchor_popup(site_url("member/get_list/ccust/"), '[ ... ]', $atts1); ?> &nbsp;
                    &nbsp;
               </div>
                            
@@ -221,7 +178,7 @@ $atts1 = array(
             <!-- <button type="button" onClick="resets();" class="btn btn-primary" data-toggle="modal" data-target="#myModal"> <i class="fa fa-plus"></i>&nbsp;Add New </button> -->
 <!--    <a class="btn btn-primary" href="<?php //echo site_url('sales/add'); ?>"> <i class="fa fa-plus"></i>&nbsp;Add New </a>-->
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal3"> Report  </button>
-            <a class="btn btn-success" href="<?php echo site_url('delivery'); ?>"> Shipping </a>
+<!--            <a class="btn btn-success" href="<?php echo site_url('delivery'); ?>"> Shipping </a>-->
                
                <!-- links -->
 	           <?php if (!empty($link)){foreach($link as $links){echo $links . '';}} ?>
@@ -231,8 +188,8 @@ $atts1 = array(
         </div>
     
       <!-- Modal - Add Form -->
-      <div class="modal fade" id="myModal" role="dialog">
-         <?php //$this->load->view('sales_confirmation'); ?>      
+      <div class="modal fade" id="myModal2" role="dialog">
+         <?php $this->load->view('sales_confirmation'); ?> 
       </div>
       <!-- Modal - Add Form -->
       

@@ -50,6 +50,17 @@ class Member_model extends Custom_Model
         return $this->db->get(); 
     }
     
+    function report($cat=null)
+    {   
+        $this->db->select($this->field);
+        $this->db->from($this->tableName); 
+        $this->db->where('deleted', $this->deleted);
+        $this->cek_null($cat, 'city');
+        
+        $this->db->order_by('id', 'asc'); 
+        return $this->db->get(); 
+    }
+    
     function login($user=null){
         
         $this->db->where('phone1', $user);

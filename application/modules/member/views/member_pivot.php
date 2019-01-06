@@ -41,7 +41,8 @@
 
 	<div style="border:0px solid red; float:left;">
 		<table border="0">
-			<tr> <td> Period </td> <td> : </td> <td> <?php echo $start.' - '.$end; ?> </td> </tr>
+            <tr> <td> Model </td> <td> : </td> <td> <?php echo $model; ?> </td> </tr>
+            <tr> <td> Category </td> <td> : </td> <td> <?php echo $category; ?> </td> </tr>
 			<tr> <td> Run Date </td> <td> : </td> <td> <?php echo $rundate; ?> </td> </tr>
 			<tr> <td> Log </td> <td> : </td> <td> <?php echo $log; ?> </td> </tr>
 		</table>
@@ -49,7 +50,7 @@
 
 	<center>
 	   <div style="border:0px solid green; width:230px;">
-	      <h4> <?php echo isset($company) ? $company : ''; ?> <br> Sales - Report (Pivot Table) </h4>
+	      <h4> <?php echo isset($company) ? $company : ''; ?> <br> Product - Report (Pivot Table) </h4>
 	   </div>
 	</center>
 
@@ -61,24 +62,29 @@
         <div style='margin-top: 10px;' id="output"> </div>
         </div>
 
-    <table id="input" border="0" width="100%">
+		<table id="input" border="0" width="100%">
 		   <thead>
            <tr>
-<th> No </th> <th> Code </th> <th> Date </th> <th> Member </th> <th> Payment Type </th> <th> Total </th> <th> Tax </th>
-<th> Cost </th> <th> Discount </th> <th> Amount </th> <th> Confirmation </th> 
-<th> Canceled </th>
-           </tr>
+ 	       <th> No </th> <th> Category </th> <th> Model </th> <th> Name </th> 
+           <th> Image </th> <th> Publish </th>
+		   </tr>
            </thead>
 		  
           <tbody> 
 		  <?php 
-              
-              function customer($val)
+		      
+              function model($val)
               {
-                  $res = new Customer_lib(); 
+                  $res = new Model_lib(); 
                   return strtoupper($res->get_name($val));
-              }
-               
+              } 
+              
+              function category($val)
+              {
+                  $res = new Categoryproduct_lib(); 
+                  return strtoupper($res->get_name($val));
+              } 
+              
               function pstatus($val){ if ($val == 0){ return 'N'; }else{ return 'Y'; } }
 			  		  
 		      $i=1; 
@@ -89,17 +95,11 @@
 				   echo " 
 				   <tr> 
 				       <td class=\"strongs\">".$i."</td> 
-                       <td class=\"strongs\">".$res->code."</td> 
-                       <td class=\"strongs\">".tglin($res->dates)."</td> 
-                       <td class=\"strongs\">".customer($res->member_id)."</td>
-                       <td class=\"strongs\">".$res->payment_type."</td>
-                       <td class=\"strongs\">".$res->total."</td>
-                       <td class=\"strongs\">".$res->tax."</td>
-                       <td class=\"strongs\">".$res->cost."</td>
-                       <td class=\"strongs\">".$res->discount."</td>
-                       <td class=\"strongs\">".floatval($res->amount+$res->cost-$res->discount)."</td>
-                       <td class=\"strongs\">".pstatus($res->approved)."</td>
-                       <td class=\"strongs\">".$res->canceled."</td>
+					   <td class=\"strongs\">".category($res->category)."</td>
+                       <td class=\"strongs\">".model($res->model)."</td>
+                       <td class=\"strongs\">".strtoupper($res->name)."</td>
+                <td class=\"strongs\"> <img class=\"img_product\" src=\"".base_url().'images/product/'.$res->image."\"> </td>
+                       <td class=\"strongs\">".pstatus($res->publish)."</td>
 				   </tr>";
 				   $i++;
 				}
@@ -107,10 +107,9 @@
 		  ?>
 		</tbody>      
 		</table>
-        
 	</div>
 	
-     <a style="float:left; margin:10px;" title="Back" href="<?php echo site_url('sales'); ?>"> 
+     <a style="float:left; margin:10px;" title="Back" href="<?php echo site_url('product'); ?>"> 
         <img src="<?php echo base_url().'images/back.png'; ?>"> 
      </a>
     

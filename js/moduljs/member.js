@@ -9,8 +9,14 @@ $(document).ready(function (e) {
 	 
 	// date time picker
 	// $('#d1,#d2,#d3,#d4,#d5').daterangepicker({
-		 // locale: {format: 'YYYY/MM/DD'}
-    // }); 
+	// 	 locale: {format: 'YYYY/MM/DD'}
+	// }); 
+	
+	$('#ds1,#ds2').daterangepicker({
+        locale: {format: 'YYYY/MM/DD'},
+		singleDatePicker: true,
+        showDropdowns: true
+	});
 	
 	load_data();  
 	
@@ -57,6 +63,44 @@ $(document).ready(function (e) {
 		})
 		return false;	
 	});
+
+	$(document).on('change','#cproduct',function(e)
+	{	
+		e.preventDefault();
+		var value = $(this).val();
+		var url = sites_product+'/get_price/'+value;
+		
+		if (value){
+			$.ajax({
+				type: 'GET',
+				url: url,
+				data: "value="+ value,
+				success: function(result) {
+				  $("#tprice").val(result);
+				  getdays(value);
+				}
+			})
+			return false;	
+		}
+		// batas
+	});
+
+	function getdays(value){
+		var url = sites_product+'/get_price/'+value+'/validity';
+		
+		if (value){
+			$.ajax({
+				type: 'GET',
+				url: url,
+				data: "value="+ value,
+				success: function(result) {
+				  $("#hdays").val(result);
+				}
+			})
+			return false;	
+		}
+
+	}
 
 	// publish status
 	$(document).on('click','#bgetpass',function(e)
@@ -108,6 +152,34 @@ $(document).ready(function (e) {
 		})
 		return false;	
 	});
+
+	// publish status
+	$(document).on('click','.premium_status',function(e)
+	{	
+		e.preventDefault();
+		var element = $(this);
+		var del_id = element.attr("id");
+
+		var url = sites_premium +"/"+ del_id;
+		// batas
+		$.ajax({
+			type: 'POST',
+			url: url,
+    	    cache: false,
+			headers: { "cache-control": "no-cache" },
+			success: function(result) {
+				res = result.split("|");
+				if (res[0] == "true")
+				{   
+					error_mess(1,res[1],1);
+					location.reload(true);
+				}
+				else if (res[0] == 'warning'){ error_mess(2,res[1],1); }
+				else{ error_mess(3,res[1],1); }
+			}
+		})
+		return false;	
+	});
 	
 	
 	$('#searchform').submit(function() {
@@ -138,12 +210,43 @@ $(document).ready(function (e) {
 // document ready end	
 });
 
+// ajax transaction data 
+$(document).on('submit','#ajaxtransform',function(e){
+
+	e.preventDefault();
+	$.ajax({
+		type: 'POST',
+		url: $(this).attr('action'),
+		data:  new FormData(this),
+		contentType: false,
+		cache: false,
+		processData:false,
+		success: function(data) {
+			res = data.split("|");
+			if (res[0] == "true")
+			{   
+				error_mess(1,res[1],1);
+				location.reload(true);
+			}
+			else if (res[0] == 'warning'){ error_mess(2,res[1],1); }
+			else{ error_mess(3,res[1],1); }
+		},
+		error: function(e) 
+		{
+			$("#error").html(e).fadeIn();
+			console.log(e.responseText);	
+		} 
+	})
+	return false;
+});
+
 	function load_data_search(search=null)
 	{
 		$(document).ready(function (e) {
 			
 			var oTable = $('#datatable-buttons').dataTable();
 			var stts = 'btn btn-danger';
+			var premium = '';
 			
 				console.log(source+"/"+search[0]+"/"+search[1]+"/"+search[2]);
 			
@@ -162,25 +265,27 @@ $(document).ready(function (e) {
 	
 		$("#chkbox").append('<input type="checkbox" name="newsletter" value="accept1" onclick="cekall('+s.length+')" id="chkselect" class="chkselect">');
 							
-						  for(var i = 0; i < s.length; i++) {
-						  if (s[i][17] == 1){ stts = 'btn btn-success'; }else { stts = 'btn btn-danger'; }
-						  oTable.fnAddData([
-'<input type="checkbox" name="cek[]" value="'+s[i][0]+'" id="cek'+i+'" style="margin:0px"  />',
-										i+1,
-'<img src="'+s[i][16]+'" class="img_product" alt="'+s[i][1]+'">',
-										s[i][3],
-										s[i][1]+' '+s[i][2],
-										s[i][9],
-										s[i][12],
-										s[i][18],
-'<div class="btn-group" role"group">'+
-'<a href="" class="'+stts+' btn-xs primary_status" id="' +s[i][0]+ '" title="Primary Status"> <i class="fa fa-power-off"> </i> </a> '+
-'<a href="" class="btn btn-warning btn-xs text-print" id="' +s[i][0]+ '" title="Invoice Status"> <i class="fa fa-print"> </i> </a> '+
-'<a href="" class="btn btn-primary btn-xs text-primary" id="' +s[i][0]+ '" title=""> <i class="fa fas-2x fa-edit"> </i> </a> '+
-'<a href="#" class="btn btn-danger btn-xs text-danger" id="'+s[i][0]+'" title="delete"> <i class="fa fas-2x fa-trash"> </i> </a>'+
-'</div>'
-										    ]);										
-											} // End For 
+					for(var i = 0; i < s.length; i++) {
+						if (s[i][17] == 1){ stts = 'btn btn-success'; }else { stts = 'btn btn-danger'; }
+			if (s[i][19] == 1){ premium = '<a class="btn-xs" title="Premium Status"> <i class="fa fa-trophy"></i> </a> '; }
+						oTable.fnAddData([
+			'<input type="checkbox" name="cek[]" value="'+s[i][0]+'" id="cek'+i+'" style="margin:0px"  />',
+									i+1,
+			'<img src="'+s[i][16]+'" class="img_product" alt="'+s[i][1]+'">',
+									s[i][3],
+									s[i][1]+' '+s[i][2],
+									s[i][9],
+									s[i][12],
+									s[i][6],
+									s[i][18],
+			'<div class="btn-group" role"group">'+premium+
+			'<a href="" class="'+stts+' btn-xs primary_status" id="' +s[i][0]+ '" title="Primary Status"> <i class="fa fa-power-off"> </i> </a> '+
+			'<a href="" class="btn btn-warning btn-xs text-print" id="' +s[i][0]+ '" title="Invoice Status"> <i class="fa fa-print"> </i> </a> '+
+			'<a href="" class="btn btn-primary btn-xs text-primary" id="' +s[i][0]+ '" title=""> <i class="fa fas-2x fa-edit"> </i> </a> '+
+			'<a href="#" class="btn btn-danger btn-xs text-danger" id="'+s[i][0]+'" title="delete"> <i class="fa fas-2x fa-trash"> </i> </a>'+
+			'</div>'
+										]);										
+										} // End For 
 											
 				},
 				error: function(e){
@@ -200,6 +305,7 @@ $(document).ready(function (e) {
 			
 			var oTable = $('#datatable-buttons').dataTable();
 			var stts = 'btn btn-danger';
+			var premium = '';
 			
 		    $.ajax({
 				type : 'GET',
@@ -218,6 +324,7 @@ $(document).ready(function (e) {
 							
 							for(var i = 0; i < s.length; i++) {
 						  if (s[i][17] == 1){ stts = 'btn btn-success'; }else { stts = 'btn btn-danger'; }
+if (s[i][19] == 1){ premium = '<a class="btn-xs" title="Premium Status"> <i class="fa fa-trophy"></i> </a> '; }
 						  oTable.fnAddData([
 '<input type="checkbox" name="cek[]" value="'+s[i][0]+'" id="cek'+i+'" style="margin:0px"  />',
 										i+1,
@@ -226,8 +333,9 @@ $(document).ready(function (e) {
 										s[i][1]+' '+s[i][2],
 										s[i][9],
 										s[i][12],
+										s[i][6],
 										s[i][18],
-'<div class="btn-group" role"group">'+
+'<div class="btn-group" role"group">'+premium+
 '<a href="" class="'+stts+' btn-xs primary_status" id="' +s[i][0]+ '" title="Primary Status"> <i class="fa fa-power-off"> </i> </a> '+
 '<a href="" class="btn btn-warning btn-xs text-print" id="' +s[i][0]+ '" title="Invoice Status"> <i class="fa fa-print"> </i> </a> '+
 '<a href="" class="btn btn-primary btn-xs text-primary" id="' +s[i][0]+ '" title=""> <i class="fa fas-2x fa-edit"> </i> </a> '+

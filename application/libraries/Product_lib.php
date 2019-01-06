@@ -12,7 +12,7 @@ class Product_lib extends Custom_Model {
     private $sales;
     protected $field = array('id', 'sku', 'category', 'name', 'description', 'image', 'url_type', 'url1', 'url2', 'url3',
                              'url4', 'url5', 'url6', 'capital', 'price', 'supplier', 'restricted', 'qty', 'start', 'end',
-                             'recommended', 'orders', 'publish', 'created', 'updated', 'deleted');
+                             'recommended', 'orders', 'publish', 'validity', 'created', 'updated', 'deleted');
 
     function cek_relation($id,$type)
     {
@@ -110,6 +110,17 @@ class Product_lib extends Custom_Model {
       $this->db->select($this->field);
       $this->db->order_by('name', 'asc');
       return $this->db->get('product');
+    }
+    
+    function combo_validity()
+    {
+        $this->db->select($this->field);
+        $this->db->where('deleted', $this->deleted);
+        $this->db->where('publish', 1);
+        $val = $this->db->get($this->tableName)->result();
+        if ($val){ foreach($val as $row){$data['options'][$row->id] = ucfirst($row->name).' - '.$row->validity;} }
+        else { $data['options'][''] = '--'; }        
+        return $data;
     }
     
     function combo()

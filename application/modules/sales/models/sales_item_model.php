@@ -6,7 +6,7 @@ class Sales_item_model extends Custom_Model
     {
         parent::__construct();
         $this->logs = new Log_lib();
-        $this->tableName = 'sales_item';
+        $this->tableName = 'orders';
     }
     
     protected $field = array('id', 'sales_id', 'product_id', 'qty', 'tax', 'amount', 'price', 'attribute', 'description');

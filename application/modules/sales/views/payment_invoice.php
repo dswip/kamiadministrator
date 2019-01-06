@@ -157,8 +157,19 @@ a[x-apple-data-detectors=true] {
     font-size: 0px; } }
 
     </style>
+    
+        <script type="text/javascript">
+    
+    function closeWindow() {
+    setTimeout(function() {
+    window.close();
+    }, 6000);
+    }
+
+    </script> 
+    
 </head>
-<body class="clean-body" style="margin: 0;padding: 0;-webkit-text-size-adjust: 100%;background-color: #FFFFFF">
+<body onload="closeWindow();" class="clean-body" style="margin: 0;padding: 0;-webkit-text-size-adjust: 100%;background-color: transparent">
   <style type="text/css" id="media-query-bodytag">
     @media (max-width: 520px) {
       .block-grid {
@@ -216,11 +227,11 @@ a[x-apple-data-detectors=true] {
   </style>
   <!--[if IE]><div class="ie-browser"><![endif]-->
   <!--[if mso]><div class="mso-container"><![endif]-->
-  <table class="nl-container" style="border-collapse: collapse;table-layout: fixed;border-spacing: 0;mso-table-lspace: 0pt;mso-table-rspace: 0pt;vertical-align: top;min-width: 320px;Margin: 0 auto;background-color: #FFFFFF;width: 100%" cellpadding="0" cellspacing="0">
+  <table class="nl-container" style="border-collapse: collapse;table-layout: fixed;border-spacing: 0;mso-table-lspace: 0pt;mso-table-rspace: 0pt;vertical-align: top;min-width: 320px;Margin: 0 auto;background-color: transparent;width: 100%" cellpadding="0" cellspacing="0">
 	<tbody>
 	<tr style="vertical-align: top">
 		<td style="word-break: break-word;border-collapse: collapse !important;vertical-align: top">
-    <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td align="center" style="background-color: #FFFFFF;"><![endif]-->
+    <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td align="center" style="background-color: transparent;"><![endif]-->
 
     <div style="background-color:transparent;">
       <div style="Margin: 0 auto;min-width: 320px;max-width: 500px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;" class="block-grid ">
@@ -235,18 +246,19 @@ a[x-apple-data-detectors=true] {
                   
                     <div align="center" class="img-container center  autowidth  fullwidth " style="padding-right: 0px;  padding-left: 0px;">
 <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr style="line-height:0px;line-height:0px;"><td style="padding-right: 0px; padding-left: 0px;" align="center"><![endif]-->
-  <img class="center  autowidth  fullwidth" align="center" border="0" src="<?php echo base_url(); ?>images/html_email_img/bann_5_1_1_1.jpg" alt="Image" title="Image" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: block !important;border: 0;height: auto;float: none;width: 100%;max-width: 500px" width="500">
+  <img class="center  autowidth  fullwidth" align="center" border="0" src="<?php echo base_url(); ?>images/html_email_img/bann_5_1_2.jpg" alt="Image" title="Image" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: block !important;border: 0;height: auto;float: none;width: 100%;max-width: 500px" width="500">
 <!--[if mso]></td></tr></table><![endif]-->
 </div>
 
                   
                   
-                    <div align="center" class="img-container center fixedwidth " style="padding-right: 0px;  padding-left: 0px;">
-<!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr style="line-height:0px;line-height:0px;"><td style="padding-right: 0px; padding-left: 0px;" align="center"><![endif]-->
-  <img class="center fixedwidth" align="center" border="0" src="<?php echo base_url(); ?>images/html_email_img/Welcome-PNG-HD_1.png" alt="Image" title="Image" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: block !important;border: 0;height: auto;float: none;width: 100%;max-width: 325px" width="325">
-<!--[if mso]></td></tr></table><![endif]-->
+                    <div class="">
+	<!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 10px; padding-left: 10px; padding-top: 10px; padding-bottom: 10px;"><![endif]-->
+	<div style="color:#555555;line-height:120%;font-family:'Open Sans', Helvetica, Arial, sans-serif; padding-right: 10px; padding-left: 10px; padding-top: 10px; padding-bottom: 10px;">	
+		<div style="font-size:12px;line-height:14px;text-align:center;color:#555555;font-family:'Open Sans', Helvetica, Arial, sans-serif;"><p style="margin: 0;font-size: 12px;line-height: 14px;text-align: center"><span style="font-size: 42px; line-height: 50px;"> <?php echo $code; ?> </span></p></div>	
+	</div>
+	<!--[if mso]></td></tr></table><![endif]-->
 </div>
-
                   
                   
                     
@@ -272,13 +284,29 @@ a[x-apple-data-detectors=true] {
                     <div class="">
 	<!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 10px; padding-left: 10px; padding-top: 10px; padding-bottom: 10px;"><![endif]-->
 	<div style="color:#555555;line-height:120%;font-family:'Open Sans', Helvetica, Arial, sans-serif; padding-right: 10px; padding-left: 10px; padding-top: 10px; padding-bottom: 10px;">	
-		<div style="font-size:12px;line-height:14px;font-family:'Open Sans', Helvetica, Arial, sans-serif;color:#555555;text-align:left;"><p style="margin: 0;font-size: 14px;line-height: 17px; text-align:center;"><span style="font-size: 16px; line-height: 19px;">&#160; &#160; &#160; &#160; Selamat bergabung dengan kami. <br> Nikmati beragam fasilitas yang tersedia melalui aplikasi Womaplex dan dapatkan diskonnya.</span></p></div>	
+		<div style="font-size:12px;line-height:14px;font-family:'Open Sans', Helvetica, Arial, sans-serif;color:#555555;text-align:left;"><p style="margin: 0;font-size: 14px;line-height: 17px"><span style="font-size: 16px; line-height: 19px;">Konfirmasi pembayaran diterima dengan rincian sebagai berikut :</span></p></div>	
 	</div>
 	<!--[if mso]></td></tr></table><![endif]-->
 </div>
                   
+              <!--[if (!mso)&(!IE)]><!--></div><!--<![endif]-->
+              </div>
+            </div>
+          <!--[if (mso)|(IE)]></td></tr></table></td></tr></table><![endif]-->
+        </div>
+      </div>
+    </div>    <div style="background-color:transparent;">
+      <div style="Margin: 0 auto;min-width: 320px;max-width: 500px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: #F5F5F5;" class="block-grid ">
+        <div style="border-collapse: collapse;display: table;width: 100%;background-color:#F5F5F5;">
+          <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="background-color:transparent;" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width: 500px;"><tr class="layout-full-width" style="background-color:#F5F5F5;"><![endif]-->
+
+              <!--[if (mso)|(IE)]><td align="center" width="500" style=" width:500px; padding-right: 0px; padding-left: 0px; padding-top:5px; padding-bottom:5px; border-top: 0px solid transparent; border-left: 0px solid transparent; border-bottom: 0px solid transparent; border-right: 0px solid transparent;" valign="top"><![endif]-->
+            <div class="col num12" style="min-width: 320px;max-width: 500px;display: table-cell;vertical-align: top;">
+              <div style="background-color: transparent; width: 100% !important;">
+              <!--[if (!mso)&(!IE)]><!--><div style="border-top: 0px solid transparent; border-left: 0px solid transparent; border-bottom: 0px solid transparent; border-right: 0px solid transparent; padding-top:5px; padding-bottom:5px; padding-right: 0px; padding-left: 0px;"><!--<![endif]-->
+
                   
-                    <div class="" style="font-size: 16px;font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif; text-align: center;">  <div style="font-size: 16px;font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif; text-align: center;"><div style="font-size: 16px;font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif; text-align: center;"><div class="our-class"> 
+                    <div class="" style="font-size: 16px;font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif; text-align: center;"><div class="our-class"> 
   <table border="0" cellpadding="0" cellspacing="0" width="100%" class="divider " style="border-collapse: collapse;table-layout: fixed;border-spacing: 0;mso-table-lspace: 0pt;mso-table-rspace: 0pt;vertical-align: top;min-width: 100%;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%">
     <tbody>
         <tr style="vertical-align: top">
@@ -287,70 +315,48 @@ a[x-apple-data-detectors=true] {
                     <tbody>
                         <tr style="vertical-align: top">
                             <td style="text-align:left;font-size:16px;color:#555555;word-break: break-word;border-collapse: collapse !important;vertical-align: top;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%">
-                                <span>Customer ID</span>
+                                <span>Detil Pengirim</span>
                             </td>
                           <td style="font-weight:bold;text-align:left;font-size:16px;color:#555555;word-break: break-word;border-collapse: collapse !important;vertical-align: top;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%">
-                                <span>: <?php echo $code; ?> </span>
+                                <span>: <?php echo $sender_name.' / '.$sender_acc.'<br> &nbsp; &nbsp;'.$sender_bank; ?> </span>
                             </td>
                         </tr>
                       
-                      <tr style="vertical-align: top">
-                           <td style="text-align:left;font-size:16px;color:#555555;word-break: break-word;border-collapse: collapse !important;vertical-align: top;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%">
-                               <span> </span>
-                           </td>
-                       </tr>
-                      
-                      <tr style="vertical-align: top">
-                            <td style="text-align:left;font-size:16px;color:#555555;word-break: break-word;border-collapse: collapse !important;vertical-align: top;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%">
-                                <span>Nama</span>
-                            </td>
-                          <td style="font-weight:bold;text-align:left;font-size:16px;color:#555555;word-break: break-word;border-collapse: collapse !important;vertical-align: top;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%">
-                                <span>: <?php echo $name; ?> </span>
-                            </td>
-                        </tr>
-                      
-                      <tr style="vertical-align: top">
-                           <td style="text-align:left;font-size:16px;color:#555555;word-break: break-word;border-collapse: collapse !important;vertical-align: top;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%">
-                               <span> </span>
-                           </td>
-                       </tr>
                       
                       	<tr style="vertical-align: top">
                             <td style="text-align:left;font-size:16px;color:#555555;word-break: break-word;border-collapse: collapse !important;vertical-align: top;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%">
-                                <span>No. Telp/HP</span>
+                                <span>Tanggal</span>
                             </td>
                           <td style="font-weight:bold;text-align:left;font-size:16px;color:#555555;word-break: break-word;border-collapse: collapse !important;vertical-align: top;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%">
-                                <span>: <?php echo $phone; ?> </span>
+                                <span>: <?php echo $dates; ?> </span>
                             </td>
                         </tr>
                       
-                      <tr style="vertical-align: top">
-                           <td style="text-align:left;font-size:16px;color:#555555;word-break: break-word;border-collapse: collapse !important;vertical-align: top;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%">
-                               <span> </span>
-                           </td>
-                       </tr>
-
-                        <tr style="vertical-align: top">
+                      	<tr style="vertical-align: top">
                             <td style="text-align:left;font-size:16px;color:#555555;word-break: break-word;border-collapse: collapse !important;vertical-align: top;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%">
-                                <span>Email</span>
+                                <span>Jam</span>
                             </td>
                           <td style="font-weight:bold;text-align:left;font-size:16px;color:#555555;word-break: break-word;border-collapse: collapse !important;vertical-align: top;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%">
-                                <span>: <?php echo $email; ?> </span>
+                                <span>: <?php echo $time; ?> WIB</span>
+                            </td>
+                        </tr>
+                        
+                        <tr style="vertical-align: top">
+                            <td style="text-align:left;font-size:16px;color:#555555;word-break: break-word;border-collapse: collapse !important;vertical-align: top;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%">
+                                <span> Bank Tujuan </span>
+                            </td>
+                          <td style="font-weight:bold;text-align:left;font-size:16px;color:#555555;word-break: break-word;border-collapse: collapse !important;vertical-align: top;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%">
+                                <span>: <?php echo ucfirst($bank); ?> </span>
                             </td>
                         </tr>
                       
-                      <tr style="vertical-align: top">
-                           <td style="text-align:left;font-size:16px;color:#555555;word-break: break-word;border-collapse: collapse !important;vertical-align: top;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%">
-                               <span> </span>
-                           </td>
-                       </tr>
                       
-                        <tr style="vertical-align: top">
+                      	<tr style="vertical-align: top">
                             <td style="text-align:left;font-size:16px;color:#555555;word-break: break-word;border-collapse: collapse !important;vertical-align: top;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%">
-                                <span>Tanggal Bergabung</span>
+                                <span> Nominal </span>
                             </td>
-                          <td style="font-weight:bold;text-align:left;font-size:16px;color:#555555;word-break: break-word;border-collapse: collapse !important;vertical-align: top;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%">
-                                <span>: <?php echo $joined; ?> WIB </span>
+                          <td style="font-weight:bold;text-align:left;font-size:16px;color:#e8af00;word-break: break-word;border-collapse: collapse !important;vertical-align: top;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%">
+                                <span>: Rp <?php echo $total; ?>,-</span>
                             </td>
                         </tr>
                       
@@ -360,7 +366,31 @@ a[x-apple-data-detectors=true] {
         </tr>
     </tbody>
 </table>
-</div></div></div></div>
+</div></div>
+
+                  
+              <!--[if (!mso)&(!IE)]><!--></div><!--<![endif]-->
+              </div>
+            </div>
+          <!--[if (mso)|(IE)]></td></tr></table></td></tr></table><![endif]-->
+        </div>
+      </div>
+    </div>    <div style="background-color:transparent;">
+      <div style="Margin: 0 auto;min-width: 320px;max-width: 500px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;" class="block-grid ">
+        <div style="border-collapse: collapse;display: table;width: 100%;background-color:transparent;">
+          <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="background-color:transparent;" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width: 500px;"><tr class="layout-full-width" style="background-color:transparent;"><![endif]-->
+
+              <!--[if (mso)|(IE)]><td align="center" width="500" style=" width:500px; padding-right: 0px; padding-left: 0px; padding-top:5px; padding-bottom:5px; border-top: 0px solid transparent; border-left: 0px solid transparent; border-bottom: 0px solid transparent; border-right: 0px solid transparent;" valign="top"><![endif]-->
+            <div class="col num12" style="min-width: 320px;max-width: 500px;display: table-cell;vertical-align: top;">
+              <div style="background-color: transparent; width: 100% !important;">
+              <!--[if (!mso)&(!IE)]><!--><div style="border-top: 0px solid transparent; border-left: 0px solid transparent; border-bottom: 0px solid transparent; border-right: 0px solid transparent; padding-top:5px; padding-bottom:5px; padding-right: 0px; padding-left: 0px;"><!--<![endif]-->
+
+                  
+                    <div align="center" class="img-container center fixedwidth " style="padding-right: 0px;  padding-left: 0px;">
+<!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr style="line-height:0px;line-height:0px;"><td style="padding-right: 0px; padding-left: 0px;" align="center"><![endif]-->
+  <img class="center fixedwidth" align="center" border="0" src="<?php echo base_url(); ?>images/html_email_img/National_Thank_You_Day_2_2.png" alt="Image" title="Image" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: block !important;border: 0;height: auto;float: none;width: 100%;max-width: 150px" width="150">
+<!--[if mso]></td></tr></table><![endif]-->
+</div>
 
                   
                   
@@ -387,7 +417,7 @@ a[x-apple-data-detectors=true] {
                     <div class="">
 	<!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 10px; padding-left: 10px; padding-top: 10px; padding-bottom: 10px;"><![endif]-->
 	<div style="color:#555555;line-height:120%;font-family:'Open Sans', Helvetica, Arial, sans-serif; padding-right: 10px; padding-left: 10px; padding-top: 10px; padding-bottom: 10px;">	
-		<div style="font-size:12px;line-height:14px;text-align:center;color:#555555;font-family:'Open Sans', Helvetica, Arial, sans-serif;"><p style="margin: 0;font-size: 12px;line-height: 14px;text-align: center"><span style="font-size: 16px; line-height: 19px;">Untuk informasi lebih lanjut, silahkan hubungi :&#160;</span></p></div><div style="font-size:12px;line-height:14px;text-align:center;color:#555555;font-family:'Open Sans', Helvetica, Arial, sans-serif;"><p style="margin: 0;font-size: 12px;line-height: 14px;text-align: center"><span style="font-size: 16px; line-height: 19px;"> <?php echo $p_phone; ?> </span></p></div><div style="font-size:12px;line-height:14px;text-align:center;color:#555555;font-family:'Open Sans', Helvetica, Arial, sans-serif;"><p style="margin: 0;font-size: 12px;line-height: 14px;text-align: center"><span style="font-size: 16px; line-height: 19px;">&#160;</span></p></div><div style="font-size:12px;line-height:14px;text-align:center;color:#555555;font-family:'Open Sans', Helvetica, Arial, sans-serif;"><p style="margin: 0;font-size: 12px;line-height: 14px;text-align: center"><br><span style="font-size: 16px; line-height: 19px;">Kantor :</span></p></div><div style="font-size:12px;line-height:14px;text-align:center;color:#555555;font-family:'Open Sans', Helvetica, Arial, sans-serif;"><p style="margin: 0;font-size: 12px;line-height: 14px;text-align: center"><span style="font-size: 16px; line-height: 19px;"> <?php echo $p_address; ?> </span></p></div>	
+		<div style="font-size:12px;line-height:14px;font-family:'Open Sans', Helvetica, Arial, sans-serif;color:#555555;text-align:left;"><p style="margin: 0;font-size: 14px;line-height: 17px;text-align: center"><span style="font-size: 16px; line-height: 19px;">Jika pesanan Anda tidak sesuai, silahkan hubungi kami</span><br><span style="font-size: 16px; line-height: 19px;"> <?php echo $p_phone; ?> </span></p><p style="margin: 0;font-size: 14px;line-height: 17px;text-align: center"><br><span style="font-size: 16px; line-height: 19px;">Kantor :</span><br><span style="font-size: 16px; line-height: 19px;"> <?php echo $p_address; ?> </span></p></div>	
 	</div>
 	<!--[if mso]></td></tr></table><![endif]-->
 </div>

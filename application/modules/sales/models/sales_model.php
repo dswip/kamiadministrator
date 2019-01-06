@@ -10,11 +10,12 @@ class Sales_model extends Custom_Model
         $this->logs = new Log_lib();
         $this->com = new Components();
         $this->com = $this->com->get_id('sales');
-        $this->tableName = 'sales';
+        $this->tableName = 'orders';
     }
     
-    protected $field = array('id', 'code', 'dates', 'cust_id', 'amount', 'tax', 'cost', 'discount', 'total', 'shipping',                            
-                             'payment_type', 'redeem', 'redeem_date', 'canceled', 'approved', 'log', 'booked', 'booked_by', 'created', 'updated', 'deleted');
+    protected $field = array('id', 'code', 'dates', 'member_id', 'amount', 'tax', 'cost', 'discount', 'total',                            
+                             'payment_type', 'paid_date', 'sender_name', 'sender_acc', 'sender_bank', 'sender_amount', 'bank_id',
+                             'canceled', 'canceled_desc', 'approved', 'log', 'created', 'updated', 'deleted');
     protected $com;
     
     function get_last($limit, $offset=null)
@@ -32,7 +33,7 @@ class Sales_model extends Custom_Model
         $this->db->select($this->field);
         $this->db->from($this->tableName); 
         $this->db->where('deleted', $this->deleted);
-        $this->cek_null_string($cust, 'cust_id');
+        $this->cek_null_string($cust, 'member_id');
         $this->cek_null_string($confirm, 'approved');
         $this->db->order_by('dates', 'desc'); 
         return $this->db->get(); 
@@ -43,34 +44,20 @@ class Sales_model extends Custom_Model
         $this->db->select($this->field);
         $this->db->from($this->tableName); 
         $this->db->where('deleted', $this->deleted);
-        $this->db->where('cust_id', $customer);
+        $this->db->where('member_id', $customer);
         $this->db->where('approved', $confirm);
         $this->db->where('canceled IS NULL');
         $this->db->limit($limit, $offset);
         $this->db->order_by('dates', 'desc'); 
         return $this->db->get(); 
     }
-    
-    function search_courier_json($courier=null,$limit=0,$offset=0)
-    {   
-        $this->db->select($this->field);
-        $this->db->from($this->tableName); 
-        $this->db->where('deleted', $this->deleted);
-        $this->db->where('booked_by', $courier);
-        $this->db->where('booked', 1);
-        $this->db->where('approved', 1);
-        $this->db->where('canceled IS NULL');
-        $this->db->limit($limit, $offset);
-        $this->db->order_by('dates', 'desc'); 
-        return $this->db->get(); 
-    }
-    
+     
     function search_canceled_json($customer=null,$limit=0)
     {   
         $this->db->select($this->field);
         $this->db->from($this->tableName); 
         $this->db->where('deleted', $this->deleted);
-        $this->db->where('cust_id', $customer);
+        $this->db->where('member_id', $customer);
         $this->db->where('approved', 0);
         $this->db->where('canceled IS NOT NULL');
         $this->db->limit($limit);
@@ -143,7 +130,7 @@ class Sales_model extends Custom_Model
     
     function valid_pending_order($cust){
         
-        $this->db->where('cust_id', $cust);
+        $this->db->where('member_id', $cust);
 //        $this->db->where('dates', date('Y-m-d'));
         $this->db->where('approved', 0);
         $this->db->where('canceled', null);

@@ -6,8 +6,8 @@ class Push_lib extends Main_model {
     {
         $this->deleted = $deleted;
         $this->error = new Error_lib();
-        $this->appid = "c49a925b-9a3d-455d-8a25-68f874181819";
-        $this->apikey = "MzY0YWFmYmItNmE1Yy00MTUyLWFlMjktMTljZDdmZDk5MTQ2";
+        $this->appid = "76ab1363-919e-4ce0-abad-c05a6f3e3be9";
+        $this->apikey = "NzFkMmJkZGEtODI3NS00YzAxLWJiZjktNGIxNzk5NTg2Nzll";
         $this->customer = new Member_login_lib();
     }
        

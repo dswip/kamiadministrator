@@ -3,8 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Applications/XAMPP/xamppfiles/htdocs/kamiadmin/application/modules/product/controllers/product.php</file>
+            <file>file:/Applications/XAMPP/xamppfiles/htdocs/kamiadmin/application/libraries/Api_lib.php</file>
             <file>file:/Applications/XAMPP/xamppfiles/htdocs/kamiadmin/application/modules/member/controllers/member.php</file>
+            <file>file:/Applications/XAMPP/xamppfiles/htdocs/kamiadmin/application/core/Custom_Model.php</file>
+            <file>file:/Applications/XAMPP/xamppfiles/htdocs/kamiadmin/application/modules/member/models/member_model.php</file>
+            <file>file:/Applications/XAMPP/xamppfiles/htdocs/kamiadmin/application/libraries/Member_premium_lib.php</file>
         </group>
     </open-files>
 </project-private>

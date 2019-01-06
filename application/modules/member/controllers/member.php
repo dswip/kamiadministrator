@@ -26,18 +26,37 @@ class Member extends MX_Controller
         $this->ledger = new Wallet_ledger_lib();
         $this->notif = new Notif_lib();
         $this->api = new Api_lib();
+        $this->product = new Product_lib();
+        $this->premium = new Member_premium_lib();
         
         header('Access-Control-Allow-Origin: *');
         header('Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS');
         header('Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token'); 
     }
 
-    private $properti, $modul, $title, $ledger, $city, $disctrict;
-    private $role, $login, $balance, $period, $notif, $api;
+    private $properti, $modul, $title, $ledger, $city, $disctrict, $premium;
+    private $role, $login, $balance, $period, $notif, $api, $product;
 
     function index()
     {
        $this->get_last(); 
+    }
+    
+    function tes_token(){
+        print_r($this->api->otentikasi());
+    }
+    
+    function decode_token(){
+        
+        $status = 200;
+        $response = null;
+        if ($this->api->otentikasi() == TRUE){
+            
+            $decoded = $this->api->otentikasi('decoded');
+            $response = array('userid' => $decoded->userid, 'username' => $decoded->username, 'phone' => $decoded->phone);
+//            print_r($decoded->userid);
+        }else{ $response = 'Invalid Token or Expired..!'; $status = 401; }
+        $this->api->response(array('content' => $response), $status);
     }
     
         // ------ json login -------------------
@@ -61,7 +80,7 @@ class Member extends MX_Controller
                     $push = new Push_lib();
                     $logid = mt_rand(1000,9999);
                     $res = $this->Member_model->get_by_phone($user)->row(); 
-//                    $sms->send($user, $this->properti['name'].' : Login OTP Code : '.$logid);
+                    $sms->send($user, $this->properti['name'].' : Login OTP Code : '.$logid);
 //                    $push->send_device($userid, $this->properti['name'].' : Kode OTP : '.$logid);
                     
                     $date = new DateTime();
@@ -69,15 +88,15 @@ class Member extends MX_Controller
                     $payload['username'] = $res->first_name;
                     $payload['phone'] = $user;
                     $payload['log'] = $logid;
-                    $payload['iat'] = $date->getTimestamp();
-                    $payload['exp'] = $date->getTimestamp() + 60*60*20;
+//                    $payload['iat'] = $date->getTimestamp();
+//                    $payload['exp'] = $date->getTimestamp() + 60*60*2;
                     $token = JWT::encode($payload, 'woma');
                     $this->login->add($res->id, $token, $datas['device']);
                 }
             }else{ $status = 401; $error = 'Invalid Phone Number'; }
         }else{ $status = 404; $error = "Wrong format..!!"; }
         
-        $output = array('token' => $token,'error' => $error); 
+        $output = array('token' => $token,'error' => $error, 'log' => $logid); 
         $this->api->response($output,$status);
     }
     
@@ -85,6 +104,8 @@ class Member extends MX_Controller
         
         if ($this->api->otentikasi() == TRUE){
             $status = 200;
+            $output = null;
+            $response = null;
             if ( isset($user) ){
 
             $res = $this->Member_model->get_by_id($user)->row();
@@ -94,9 +115,9 @@ class Member extends MX_Controller
                                      "city" => $res->city, 'npwp' => $res->npwp, 'profession' => $res->profession,
                                      'organization' => $res->organization, 'member_no' => $res->member_no, 'instagram' => $res->instagram, 'image' => base_url().'images/member/'.$res->image);
             }else{ $status = 404; }
-            }else{ $status = 401; $error = "Wrong format..!!"; }
-        }else{ $response = array('error' => 'Invalid Token or Expired..!'); $status = 401; }
-        $this->api->response(array('output' => $output), $status);
+            }else{ $status = 401; $response = "Wrong format..!!"; }
+        }else{ $response = 'Invalid Token or Expired..!'; $status = 401; }
+        $this->api->response(array('error' => $response, 'content' => $output), $status);
     }
     
     // get detail by phone
@@ -171,6 +192,22 @@ class Member extends MX_Controller
         $this->api->response($response, $status);
     }
     
+    // cek status premium   
+    function cek_status_premium(){
+        
+        if ($this->api->otentikasi() == TRUE){
+            $status = 200; $response = null;
+            $datax = (array)json_decode(file_get_contents('php://input')); 
+
+            if ($datax['member_id'] != null){
+               $res = $this->premium->cek_status($datax['member_id']);
+               if ($res == FALSE){ $response = array('error' => 'Invalid premium member..!'); $status = 401; }
+            }else{ $response = array('error' => 'Invalid JSON Format'); $status = 404; }
+        }else{ $response = array('error' => 'Invalid Token or Expired..!'); $status = 401; }
+        
+        $this->api->response($response, $status);
+    }
+    
     private function crop_image($filename){
         
         $config['image_library'] = 'gd2';
@@ -232,9 +269,10 @@ class Member extends MX_Controller
        $data['email']    = $member->email;
        $data['joined']  = tglin($member->joined).' / '. timein($member->joined);
          
+//       $this->load->view('member_receipt', $data);
         // email send
        $html = $this->load->view('member_receipt',$data,true); 
-       return $this->notif->create($pid, $html, 0, $this->title, 'Woma E-Welcome - '.strtoupper($data['code']));
+       return $this->notif->create($pid, $html, 0, $this->title, 'Womaplex E-Welcome - '.strtoupper($data['code']));
     }
     
 
@@ -250,10 +288,11 @@ class Member extends MX_Controller
                 
          foreach($result as $res)
 	 {   
+           if ($this->premium->get_status($res->id) == TRUE){ $premium = '1'; }else{ $premium = '0'; }
 	   $output[] = array ($res->id, $res->first_name, $res->last_name, $res->type, $res->address, $res->shipping_address, 
                               $res->phone1, $res->phone2, $res->fax, $res->email, $res->password, $res->website, $this->city->get_name($res->city),
                               $res->region, $res->zip, $res->notes, 
-                              base_url().'images/member/'.$res->image, $res->status , tglin($res->joined)
+                              base_url().'images/member/'.$res->image, $res->status , tglin($res->joined), $premium
                              );
 	 } 
          
@@ -339,7 +378,7 @@ class Member extends MX_Controller
         $this->table->set_empty("&nbsp;");
 
         //Set heading untuk table
-        $this->table->set_heading('#','No', 'Image', 'Type', 'Name', 'Email', 'City', 'Joined', 'Action');
+        $this->table->set_heading('#','No', 'Image', 'Type', 'Name', 'Email', 'City', 'Phone', 'Joined', 'Action');
 
         $data['table'] = $this->table->generate();
         $data['source'] = site_url($this->title.'/getdatatable');
@@ -539,6 +578,39 @@ class Member extends MX_Controller
     private function split_array($val)
     { return implode(",",$val); }
    
+    function premium($id){
+        $member = $this->premium->get_detail_based_id($id);
+        $res = $this->premium->post_premium($id, $member->member_id);
+        if ($res == TRUE){ echo 'true|Premium Status Chaged...!'; }else{ echo 'error|Premium period is over..!'; }
+    }
+    
+    function add_premium()
+    {
+        if ($this->acl->otentikasi2($this->title,'ajax') == TRUE){
+
+	// Form validation
+        $this->form_validation->set_rules('cproduct', 'SKU', 'required');
+        $this->form_validation->set_rules('tstart', 'Start', 'required');
+        $this->form_validation->set_rules('hdays', 'Interval Dates', 'required|numeric|is_natural_no_zero');
+        $this->form_validation->set_rules('tqty', 'Modal Price', 'required|numeric|is_natural_no_zero');
+        $this->form_validation->set_rules('tprice', 'Price', 'required|numeric|is_natural_no_zero');
+        
+        if ($this->form_validation->run($this) == TRUE)
+        {       
+           $interval = intval($this->input->post('hdays')*$this->input->post('tqty')-1);
+           $end = date('Y-m-d',strtotime("+".$interval." day", strtotime($this->input->post('tstart')))); 
+
+           $product = array('member_id' => $this->input->post('tpid'),
+                            'product_id' => $this->input->post('cproduct'), 'joined' => $this->input->post('tstart'), 
+                            'end' => $end,
+                            'amount' => intval($this->input->post('tprice')*$this->input->post('tqty')),
+                            'status' => 0);
+           $this->premium->insert($product);
+           echo 'true| 1 premium successfully saved..!|';
+        }
+        else{ echo "error|".validation_errors(); }
+        }else { echo "error|Sorry, you do not have the right to edit $this->title component..!"; }
+    }
 
     // Fungsi update untuk menset texfield dengan nilai dari database
     function update($uid=null)
@@ -551,12 +623,14 @@ class Member extends MX_Controller
         $data['source'] = site_url($this->title.'/getdatatable');
 
         $data['city'] = $this->city->combo_city_db();
+        $data['product'] = $this->product->combo_validity();
         $data['district'] = $this->disctrict->combo_district_db(null);
         $data['array'] = array('','');
         
         $member = $this->Member_model->get_by_id($uid)->row();
 	$this->session->set_userdata('langid', $member->id);
         
+        $data['pid'] = $uid;
         $data['default']['fname'] = $member->first_name;
         $data['default']['lname'] = $member->last_name;
         $data['default']['type'] = $member->type;
@@ -576,6 +650,9 @@ class Member extends MX_Controller
         $data['default']['memberno'] = $member->member_no;
         $data['default']['instagram'] = $member->instagram;
         $data['default']['image'] = base_url().'images/member/'.$member->image;
+        
+        // premium member
+        $data['items'] = $this->premium->get_detail_based_member($uid)->result();
 
         $this->load->view('template', $data);
     }
@@ -793,9 +870,9 @@ class Member extends MX_Controller
 	// Form validation
 
         $this->form_validation->set_rules('tfname', 'SKU', 'required');
-        $this->form_validation->set_rules('tlname', 'Name', 'required');
+        $this->form_validation->set_rules('tlname', 'Name', '');
         $this->form_validation->set_rules('ctype', 'Member Type', 'required');
-        $this->form_validation->set_rules('taddress', 'Address', 'required');
+        $this->form_validation->set_rules('taddress', 'Address', '');
         $this->form_validation->set_rules('tphone1', 'Phone 1', 'required');
         $this->form_validation->set_rules('tphone2', 'Phone 2', '');
         $this->form_validation->set_rules('temail', 'Email', 'required|valid_email|callback_validating_email');
@@ -803,7 +880,6 @@ class Member extends MX_Controller
         $this->form_validation->set_rules('ccity', 'City', 'required');
         $this->form_validation->set_rules('cdistrict', 'District', 'required');
         $this->form_validation->set_rules('tzip', 'Zip', '');
-        $this->form_validation->set_rules('tpass', 'Password', 'required');
             
         if ($this->form_validation->run($this) == TRUE)
         {
@@ -873,6 +949,22 @@ class Member extends MX_Controller
             $js = "class='select2_single form-control' id='cdistrict' tabindex='-1' style='width:100%;' "; 
             echo form_dropdown('cdistrict', $district, isset($default['district']) ? $default['district'] : '', $js);
         }
+    }
+    
+    function report_process()
+    {
+        $this->acl->otentikasi2($this->title);
+        $data['title'] = $this->properti['name'].' | Report '.ucwords($this->modul['title']);
+
+        $data['rundate'] = tglin(date('Y-m-d'));
+        $data['log'] = $this->session->userdata('log');
+
+//        Property Details
+        $data['company'] = $this->properti['name'];
+        $data['reports'] = $this->Member_model->report($this->input->post('ccity'))->result();
+        
+        if ($this->input->post('ctype') == 0){ $this->load->view('member_report', $data); }
+        else { $this->load->view('member_pivot', $data); }
     }
    
 

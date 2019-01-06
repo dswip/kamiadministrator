@@ -125,6 +125,13 @@
             </table>
           </div>
       </div>
+        
+      <div class="form-group">
+      <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12"> Validity </label>
+      <div class="col-md-6 col-sm-6 col-xs-12">
+         <input type="number" name="tvalidity" class="form-control" required style="width:75px;" value="<?php echo isset($default['validity']) ? $default['validity'] : '' ?>">
+      </div>
+      </div>  
        
       <div class="form-group">  
           <label class="control-label col-md-3 col-sm-3 col-xs-12"> <br> Restricted Stock (Qty) </label>  

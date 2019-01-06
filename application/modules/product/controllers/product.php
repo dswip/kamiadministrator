@@ -111,9 +111,10 @@ class Product extends MX_Controller
     
     // ============ ajax ==========================
     
-    function get_price($pid){
+    function get_price($pid,$type='price'){
         $product = $this->Product_model->get_by_id($pid)->row();
-        echo $product->price;
+        echo $product->$type;
+        
     }
      
     public function getdatatable($search=null,$cat='null',$model='null',$publish='null')
@@ -408,8 +409,8 @@ class Product extends MX_Controller
             
         }else{ echo "error|".validation_errors(); }
         }else { echo "error|Sorry, you do not have the right to edit $this->title component..!"; }
-    }
-
+    }    
+    
     // Fungsi update untuk menset texfield dengan nilai dari database
     function update($uid=null)
     {        
@@ -439,6 +440,7 @@ class Product extends MX_Controller
         $data['default']['start'] = $product->start;
         $data['default']['end'] = $product->end;
         $data['default']['order'] = $product->orders;
+        $data['default']['validity'] = $product->validity;
         $data['default']['url_type'] = $product->url_type;
         $data['default']['image'] = base_url().'images/product/'.$product->image;
          
@@ -725,6 +727,7 @@ class Product extends MX_Controller
             $this->form_validation->set_rules('tstart', 'Start Time', 'required|callback_valid_time');
             $this->form_validation->set_rules('tend', 'End Time', 'required');
             $this->form_validation->set_rules('torder', 'Product Order', 'required|numeric');
+            $this->form_validation->set_rules('tvalidity', 'Product Validity', 'required|numeric');
             $this->form_validation->set_rules('tdesc', 'Description', '');
             
             if ($this->form_validation->run($this) == TRUE)
@@ -752,7 +755,7 @@ class Product extends MX_Controller
                                      'sku' => $this->input->post('tsku'), 'start' => $start, 'end' => $end, 'qty' => $qty, 
                                      'restricted' => $this->input->post('crestrict'), 'capital' => $this->input->post('tmodal'), 'price' => $this->input->post('tprice'),
                                      'category' => $this->input->post('ccategory'), 'supplier' => $this->input->post('csupplier'),
-                                     'description' => $this->input->post('tdesc'), 'orders' => $this->input->post('torder'));
+                                     'description' => $this->input->post('tdesc'), 'orders' => $this->input->post('torder'), 'validity' => $this->input->post('tvalidity'));
                 }
                 else
                 {
@@ -762,7 +765,7 @@ class Product extends MX_Controller
                                      'sku' => $this->input->post('tsku'), 'start' => $start, 'end' => $end, 'qty' => $qty, 
                                      'restricted' => $this->input->post('crestrict'), 'capital' => $this->input->post('tmodal'), 'price' => $this->input->post('tprice'),
                                      'category' => $this->input->post('ccategory'), 'supplier' => $this->input->post('csupplier'),
-                                     'description' => $this->input->post('tdesc'), 'orders' => $this->input->post('torder'),
+                                     'description' => $this->input->post('tdesc'), 'orders' => $this->input->post('torder'), 'validity' => $this->input->post('tvalidity'),
                                      'image' => $info['file_name']);
                 }
                 

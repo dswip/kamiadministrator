@@ -322,14 +322,6 @@ a[x-apple-data-detectors=true] {
                             </td>
                         </tr>
                       
-                      <tr style="vertical-align: top">
-                            <td style="text-align:left;font-size:16px;color:#555555;word-break: break-word;border-collapse: collapse !important;vertical-align: top;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%">
-                                <span>Alamat Tujuan</span>
-                            </td>
-                          <td style="font-weight:bold;text-align:left;font-size:16px;color:#555555;word-break: break-word;border-collapse: collapse !important;vertical-align: top;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%">
-                                <span>: <?php echo $destination; ?> </span>
-                            </td>
-                        </tr>
                       
                       	<tr style="vertical-align: top">
                             <td style="text-align:left;font-size:16px;color:#555555;word-break: break-word;border-collapse: collapse !important;vertical-align: top;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%">
@@ -348,26 +340,13 @@ a[x-apple-data-detectors=true] {
                                 <span>: <?php echo $time; ?> WIB</span>
                             </td>
                         </tr>
-                      
-                      	<tr style="vertical-align: top">
+                        
+                        <tr style="vertical-align: top">
                             <td style="text-align:left;font-size:16px;color:#555555;word-break: break-word;border-collapse: collapse !important;vertical-align: top;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%">
-                                <span>Detail Pemesanan</span>
+                                <span> Jenis Paket </span>
                             </td>
                           <td style="font-weight:bold;text-align:left;font-size:16px;color:#555555;word-break: break-word;border-collapse: collapse !important;vertical-align: top;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%">
-                                <span>
-                            		<ol>
-                             <?php
-                                
-                                function product($pid){
-                                    $pro = new Product_lib();
-                                    return ucfirst($pro->get_name($pid));
-                                }
-                                if ($items){
-                                    foreach ($items as $res){ echo "<li>".product($res->product_id)."</li>"; }   
-                                }           
-                             ?>
-                                  	</ol>
-                            	</span>
+                                <span>: <?php echo ucfirst($product).' <br> &nbsp; '.$period; ?> </span>
                             </td>
                         </tr>
                       
@@ -387,15 +366,6 @@ a[x-apple-data-detectors=true] {
                             </td>
                           <td style="font-weight:bold;text-align:left;font-size:16px;color:#555555;word-break: break-word;border-collapse: collapse !important;vertical-align: top;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%">
                                 <span>: Rp <?php echo $discount; ?> ,-</span>
-                            </td>
-                        </tr>
-                      
-                      	<tr style="vertical-align: top">
-                            <td style="text-align:left;font-size:16px;color:#555555;word-break: break-word;border-collapse: collapse !important;vertical-align: top;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%">
-                                <span>Ongkos Pengiriman</span>
-                            </td>
-                          <td style="font-weight:bold;text-align:left;font-size:16px;color:#555555;word-break: break-word;border-collapse: collapse !important;vertical-align: top;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%">
-                                <span>: Rp <?php echo $shipping; ?>,-</span>
                             </td>
                         </tr>
                       

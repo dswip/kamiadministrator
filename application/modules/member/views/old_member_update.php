@@ -1,3 +1,4 @@
+
  <!-- Datatables CSS -->
 <link href="<?php echo base_url(); ?>js/datatables/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
 <link href="<?php echo base_url(); ?>js/datatables/buttons.bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -30,7 +31,6 @@
 	var sites_get  = "<?php echo site_url('member/update/');?>";
     var sites_ajax  = "<?php echo site_url('member/');?>";
     var sites_primary = "<?php echo site_url('member/publish/');?>";
-    var sites_premium = "<?php echo site_url('member/premium/');?>";
     var sites_product  = "<?php echo site_url('product/');?>";
 	var source = "<?php echo $source;?>";
 	
@@ -52,12 +52,27 @@
               </div>
               <!-- xtitle -->
                 
-                <div class="x_content">     
- <div id="errors" class="alert alert-danger alert-dismissible fade in" role="alert"> 
+                <div class="x_content">
+                      
+                  
+             <!-- Smart Wizard -->
+<div id="wizard" class="form_wizard wizard_horizontal">
+  
+  <ul class="wizard_steps">
+    <li>
+      <a href="#step-1">
+        <span class="step_no">1</span>
+        <span class="step_descr"> <small> General </small> </span>
+      </a>
+    </li>
+   
+  </ul>
+  
+  <div id="errors" class="alert alert-danger alert-dismissible fade in" role="alert"> 
      <?php $flashmessage = $this->session->flashdata('message'); ?> 
 	 <?php echo ! empty($message) ? $message : '' . ! empty($flashmessage) ? $flashmessage : ''; ?> 
   </div>
-                    
+  
   <div id="step-1">
     <!-- form -->
     <form id="upload_form_parent" data-parsley-validate class="form-horizontal form-label-left" method="POST" 
@@ -196,21 +211,15 @@ echo form_dropdown('cdistrict', $district, isset($default['district']) ? $defaul
       </div>
       
 	</form>
-      
     <!-- end div layer 1 -->
       
-<!-- form transaction table  -->
+      <!-- form transaction table  -->
       
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
     
  <!-- searching form -->
-   <!-- error div -->
- <div class="alert alert-success success"> </div>
- <div class="alert alert-warning warning"> </div>
- <div class="alert alert-error error"> </div>
-        
-  <h3> Premium Section </h3> <hr>
+   <h3> Premium Section </h3> <hr>
    <form id="ajaxtransform" class="form-inline" method="post" action="<?php echo site_url('member/add_premium'); ?>">
        
       <div class="form-group">
@@ -253,7 +262,7 @@ echo form_dropdown('cdistrict', $district, isset($default['district']) ? $defaul
   <div class="col-md-12 col-sm-12 col-xs-12">  
     <div class="table-responsive">
       <table class="table table-striped jambo_table bulk_action">
-       <thead>
+        <thead>
           <tr class="headings">
             <th class="column-title"> No </th>
             <th class="column-title"> Product </th>
@@ -269,38 +278,35 @@ echo form_dropdown('cdistrict', $district, isset($default['district']) ? $defaul
 
         <tbody>
             
-            <?php
+        <?php
            
-            function product($pid)
-            {
-                $val = new Product_lib();
-                return $val->get_sku($pid).'<br>'.ucfirst($val->get_name($pid));
-            }
-            
-            if ($items)
-            {
-                $i=1;
-                foreach($items as $res)
-                {
-                    if ($res->status == 0){$stts = 'danger';}else{ $stts = 'success'; }
-                    echo "
-                     <tr class=\"even pointer\">
-                        <td> ".$i." </td>
-                        <td> ".product($res->product_id)." </td>
-                        <td> ".tglin($res->joined).' - '.tglin($res->end)." </td>
-                        <td class=\"a-right a-right \"> ".idr_format($res->amount)." </td>
-<td class=\" last\"> 
-<a id=\"".$res->id."\" class=\"btn btn-".$stts." btn-xs premium_status\"> 
-<i class=\"fa fa-power-off\"> </i>
-</a>
-<a class=\"btn btn-danger btn-xs\" href=\"".site_url('sales/delete_item/'.$res->id.'/'.$res->member_id)."\"> 
-<i class=\"fa fas-2x fa-trash\"> </i> 
-</a> 
-</td>
-                      </tr>
-                    "; $i++;
-                }
-            }
+//            function product($pid)
+//            {
+//                $val = new Product_lib();
+//                return $val->get_sku($pid).'<br>'.ucfirst($val->get_name($pid));
+//            }
+//            
+//            if ($items)
+//            {
+//                $i=1;
+//                foreach($items as $res)
+//                {
+//                    echo "
+//                     <tr class=\"even pointer\">
+//                        <td> ".$i." </td>
+//                        <td> ".product($res->product_id)." </td>
+//                        <td> ".$res->qty." </td>
+//                        <td class=\"a-right a-right \"> ".idr_format(intval($res->qty*$res->price))." </td>
+//                        <td class=\"a-right a-right \"> ".idr_format($res->tax)." </td>
+//                        <td class=\"a-right a-right \"> ".idr_format($res->amount)." </td>
+//<td class=\" last\"> 
+//<a class=\"btn btn-danger btn-xs\" href=\"".site_url('sales/delete_item/'.$res->id.'/'.$res->sales_id)."\"> 
+//<i class=\"fa fas-2x fa-trash\"> </i> 
+//</a> </td>
+//                      </tr>
+//                    "; $i++;
+//                }
+//            }
             
         ?> 
 
@@ -309,13 +315,18 @@ echo form_dropdown('cdistrict', $district, isset($default['district']) ? $defaul
     </div>
     </div>
 <!-- table -->
-    
+
     
 </div>
 <!-- form transaction table  -->  
-        
+      
+      
   </div>
-                  
+    
+  
+</div>
+<!-- End SmartWizard Content -->
+                      
      </div>
        
        <!-- links -->
@@ -341,10 +352,10 @@ echo form_dropdown('cdistrict', $district, isset($default['district']) ? $defaul
         <script src="<?php echo base_url(); ?>js/datatables/dataTables.tableTools.js"></script>
     
     <!-- jQuery Smart Wizard -->
-    <script type="text/javascript" src="<?php echo base_url(); ?>js/wizard/jquery.smartWizard.js"></script>
+    <script src="<?php echo base_url(); ?>js/wizard/jquery.smartWizard.js"></script>
         
         <!-- jQuery Smart Wizard -->
-    <script type="text/javascript">
+    <script>
       $(document).ready(function() {
         $('#wizard').smartWizard();
 
@@ -355,5 +366,4 @@ echo form_dropdown('cdistrict', $district, isset($default['district']) ? $defaul
       });
     </script>
     <!-- /jQuery Smart Wizard -->
-    
     

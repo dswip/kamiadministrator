@@ -59,12 +59,14 @@ class Api_lib extends Custom_Model {
           exit;  
     }
     
-    function otentikasi(){
-        $jwt = $this->input->get_request_header('Authorization');
+    function otentikasi($type=null){
+        $jwt = $this->input->get_request_header('Token');
         // harus mencocokan decoded mobile no dengan log di database
         try{
           $decoded  = JWT::decode($jwt, 'woma', array('HS256'));
-          return $this->login->valid($decoded->userid, $jwt);
+          if (!$type){
+            return $this->login->valid($decoded->userid, $jwt);   
+          }else{ return $decoded; }
         }
         catch (\Exception $e){ 
 //            $response = array('error' => 'Error token..!');

@@ -23,11 +23,11 @@ class Send_email extends Custom_Model {
         $config['charset'] = 'iso-8859-1';
         $config['wordwrap'] = TRUE;
 
-        $config['protocol']   = "smtp";
-        $config['smtp_host']  = "mail.wamenak.com";
-        $config['smtp_user']  = 'info@wamenak.com';
-        $config['smtp_pass']  = 'wamenak2018';
-        $config['smtp_port']  = '587';
+//        $config['protocol']   = "smtp";
+//        $config['smtp_host']  = "mail.wamenak.com";
+//        $config['smtp_user']  = 'info@wamenak.com';
+//        $config['smtp_pass']  = 'wamenak2018';
+//        $config['smtp_port']  = '587';
         $config['charset']  = 'utf-8';
         $config['wordwrap'] = TRUE;
         $config['mailtype'] = $type;
@@ -53,11 +53,11 @@ class Send_email extends Custom_Model {
               $config['charset'] = 'iso-8859-1';
               $config['wordwrap'] = TRUE;
               
-              $config['protocol']   = "smtp";
-              $config['smtp_host']  = "mail.wamenak.com";
-              $config['smtp_user']  = 'info@wamenak.com';
-              $config['smtp_pass']  = 'wamenak2018';
-              $config['smtp_port']  = '587';
+//              $config['protocol']   = "smtp";
+//              $config['smtp_host']  = "mail.wamenak.com";
+//              $config['smtp_user']  = 'info@wamenak.com';
+//              $config['smtp_pass']  = 'wamenak2018';
+//              $config['smtp_port']  = '587';
               $config['charset']  = 'utf-8';
               $config['wordwrap'] = TRUE;
               $config['mailtype'] = $type;

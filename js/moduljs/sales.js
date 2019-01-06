@@ -15,6 +15,16 @@ $(document).ready(function (e) {
         showDropdowns: true
 	});
 
+		// date time picker
+	$('#ds3').daterangepicker({
+		locale: {format: 'YYYY/MM/DD hh:mm'},
+		singleDatePicker: true,
+		showDropdowns: true,
+		timePicker: true,
+		timePicker24Hour: true,
+		startDate: moment().startOf('hour')
+	}); 
+
 	setInterval(function(){ load_data(); }, 15000);
 	setInterval(function(){ location.reload(); }, 300000);
 	load_data();  
@@ -28,9 +38,28 @@ $(document).ready(function (e) {
 		var del_id = element.attr("id");
 		var url = sites_confirmation +"/"+ del_id;
 		$(".error").fadeOut();
-
-		// window.location.href = url;
-		window.open(url, "Sales Payment : "+del_id, "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=600,width=1024,height=800");	
+		$("#myModal2").modal('show');
+		// batas
+		$.ajax({
+			type: 'POST',
+			url: url,
+    	    cache: false,
+			headers: { "cache-control": "no-cache" },
+			success: function(result) {
+				
+				res = result.split("|");
+				resets();
+				$("#hid").val(res[0]);
+				$("#taccname").val(res[1]);
+				$("#taccno").val(res[2]);
+				$("#taccbank").val(res[3]);
+				$("#tamount").val(res[4]);
+				$('#cbank').val(res[5]).change();
+				$("#torder_update").val(res[4]);
+				$("#ds3").val(res[6]);
+			}
+		})
+		return false;	
 	});
 	
 	// fungsi jquery update
@@ -43,17 +72,6 @@ $(document).ready(function (e) {
 		window.location.href = url;
 		
 	});
-
-	// commision process
-	$(document).on('click','.text-commision',function(e)
-	{	e.preventDefault();
-		var element = $(this);
-		var del_id = element.attr("id");
-		var url = sites_commision +"/"+ del_id;
-		
-		window.location.href = url;
-		
-	});
 	
 		// fungsi jquery update
 	$(document).on('click','.text-print',function(e)
@@ -61,17 +79,6 @@ $(document).ready(function (e) {
 		var element = $(this);
 		var del_id = element.attr("id");
 		var url = sites_print_invoice +"/"+ del_id +"/invoice";
-		
-		// window.location.href = url;
-		window.open(url, "Invoice SO-0"+del_id, "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=600,width=800,height=600");
-		
-	});
-
-	$(document).on('click','.text-shipping',function(e)
-	{	e.preventDefault();
-		var element = $(this);
-		var del_id = element.attr("id");
-		var url = sites_print_invoice +"/"+ del_id +"/shipping";
 		
 		// window.location.href = url;
 		window.open(url, "Invoice SO-0"+del_id, "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=600,width=800,height=600");
@@ -90,35 +97,6 @@ $(document).ready(function (e) {
 		
 		// $("#myModal2").modal('show');
 		// batas
-		$.ajax({
-			type: 'POST',
-			url: url,
-    	    cache: false,
-			headers: { "cache-control": "no-cache" },
-			success: function(result) {
-				
-				res = result.split("|");
-				if (res[0] == "true")
-				{   
-			        error_mess(1,res[1],0);
-					load_data();
-				}
-				else if (res[0] == 'warning'){ error_mess(2,res[1],0); }
-				else{ error_mess(3,res[1],0); }
-			}
-		})
-		return false;
-	});
-
-	// redeem status
-	$(document).on('click','.text-redeem',function(e)
-	{	
-		e.preventDefault();
-		var element = $(this);
-		var del_id = element.attr("id");
-		var url = sites_redeem +"/"+ del_id;
-		$(".error").fadeOut();
-		
 		$.ajax({
 			type: 'POST',
 			url: url,
@@ -324,28 +302,25 @@ $(document).ready(function (e) {
 	
 		$("#chkbox").append('<input type="checkbox" name="newsletter" value="accept1" onclick="cekall('+s.length+')" id="chkselect" class="chkselect">');
 							
-				for(var i = 0; i < s.length; i++) {
-					if (s[i][8] == 1){ stts = 'btn btn-success'; }else { stts = 'btn btn-danger'; }
-					if (s[i][9] == 1){ redeem = 'btn btn-success'; }else { redeem = 'btn btn-danger'; }
-					if (s[i][10] != null){ cancel = 'btn btn-success'; }else { cancel = 'btn btn-danger'; }
-					oTable.fnAddData([
-		'<input type="checkbox" name="cek[]" value="'+s[i][0]+'" id="cek'+i+'" style="margin:0px"  />',
-								i+1,
-								s[i][1],
-								s[i][2]+" - "+s[i][3],
-								s[i][4],
-								s[i][5],
-								s[i][7],
-		'<div class="btn-group" role"group">'+
-		'<a href="" class="'+stts+' btn-xs primary_status" id="' +s[i][0]+ '" title="Confirmation Status"> <i class="fa fa-power-off"> </i> </a> '+
-		'<a href="" class="btn btn-success btn-xs text-print" id="' +s[i][0]+ '" title="Invoice Status"> <i class="fa fa-print"> </i> </a> '+
-		'<a href="" class="'+redeem+' btn-xs text-redeem" id="' +s[i][0]+ '" title="Redeem Status"> <i class="fa fa-exchange"> </i> </a> '+
-		'<a href="" class="btn btn-primary btn-xs text-primary" id="' +s[i][0]+ '" title=""> <i class="fa fas-2x fa-edit"> </i> </a> '+
-		'<a href="" class="'+cancel+' btn-xs text-cancel" id="' +s[i][0]+ '" title="Confirmation Status"> <i class="fa fa-ban"> </i> </a> '+
-		'<a href="#" class="btn btn-danger btn-xs text-danger" id="'+s[i][0]+'" title="delete"> <i class="fa fas-2x fa-trash"> </i> </a>'+
-		'</div>'
-									]);										
-									} // End For 
+		for(var i = 0; i < s.length; i++) {
+			if (s[i][7] == 1){ stts = 'btn btn-success'; }else { stts = 'btn btn-danger'; }
+			if (s[i][8] != null){ cancel = 'btn btn-success'; }else { cancel = 'btn btn-danger'; }
+			oTable.fnAddData([
+'<input type="checkbox" name="cek[]" value="'+s[i][0]+'" id="cek'+i+'" style="margin:0px"  />',
+						  i+1,
+						  s[i][1],
+						  s[i][2]+" - "+s[i][3],
+						  s[i][4],
+						  s[i][5],
+'<div class="btn-group" role"group">'+
+'<a href="" class="'+stts+' btn-xs primary_status" id="' +s[i][0]+ '" title="Confirmation Status"> <i class="fa fa-power-off"> </i> </a> '+
+'<a href="" class="btn btn-success btn-xs text-print" id="' +s[i][0]+ '" title="Invoice Status"> <i class="fa fa-print"> </i> </a> '+
+'<a href="" class="btn btn-primary btn-xs text-primary" id="' +s[i][0]+ '" title=""> <i class="fa fas-2x fa-edit"> </i> </a> '+
+'<a href="" class="'+cancel+' btn-xs text-cancel" id="' +s[i][0]+ '" title="Cancel Status"> <i class="fa fa-ban"> </i> </a> '+
+'<a href="#" class="btn btn-danger btn-xs text-danger" id="'+s[i][0]+'" title="delete"> <i class="fa fas-2x fa-trash"> </i> </a>'+
+'</div>'
+							  ]);										
+							  } // End For 
 											
 				},
 				error: function(e){
@@ -383,9 +358,8 @@ $(document).ready(function (e) {
 		$("#chkbox").append('<input type="checkbox" name="newsletter" value="accept1" onclick="cekall('+s.length+')" id="chkselect" class="chkselect">');
 							
 							for(var i = 0; i < s.length; i++) {
-						  if (s[i][8] == 1){ stts = 'btn btn-success'; }else { stts = 'btn btn-danger'; }
-						  if (s[i][9] == 1){ redeem = 'btn btn-success'; }else { redeem = 'btn btn-danger'; }
-						  if (s[i][10] != null){ cancel = 'btn btn-success'; }else { cancel = 'btn btn-danger'; }
+						  if (s[i][7] == 1){ stts = 'btn btn-success'; }else { stts = 'btn btn-danger'; }
+						  if (s[i][8] != null){ cancel = 'btn btn-success'; }else { cancel = 'btn btn-danger'; }
 						  oTable.fnAddData([
 '<input type="checkbox" name="cek[]" value="'+s[i][0]+'" id="cek'+i+'" style="margin:0px"  />',
 										i+1,
@@ -393,12 +367,11 @@ $(document).ready(function (e) {
 										s[i][2]+" - "+s[i][3],
 										s[i][4],
 										s[i][5],
-										s[i][7],
 '<div class="btn-group" role"group">'+
 '<a href="" class="'+stts+' btn-xs primary_status" id="' +s[i][0]+ '" title="Confirmation Status"> <i class="fa fa-power-off"> </i> </a> '+
 '<a href="" class="btn btn-success btn-xs text-print" id="' +s[i][0]+ '" title="Invoice Status"> <i class="fa fa-print"> </i> </a> '+
-'<a href="" class="'+redeem+' btn-xs text-redeem" id="' +s[i][0]+ '" title="Redeem Status"> <i class="fa fa-exchange"> </i> </a> '+
 '<a href="" class="btn btn-primary btn-xs text-primary" id="' +s[i][0]+ '" title=""> <i class="fa fas-2x fa-edit"> </i> </a> '+
+'<a href="" class="btn btn-default btn-xs text-confirmation" id="' +s[i][0]+ '" title=""> <i class="fa fa-credit-card"></i> </a> '+
 '<a href="" class="'+cancel+' btn-xs text-cancel" id="' +s[i][0]+ '" title="Cancel Status"> <i class="fa fa-ban"> </i> </a> '+
 '<a href="#" class="btn btn-danger btn-xs text-danger" id="'+s[i][0]+'" title="delete"> <i class="fa fas-2x fa-trash"> </i> </a>'+
 '</div>'
